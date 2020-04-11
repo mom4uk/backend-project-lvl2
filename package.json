@@ -1,0 +1,25 @@
+{
+  "name": "backend-project-lvl2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "backend-project-lvl2": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mom4uk/backend-project-lvl2.git"
+  },
+  "author": "Mikhail Manov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mom4uk/backend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/mom4uk/backend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^5.0.0"
+  }
+}
