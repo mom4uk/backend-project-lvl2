@@ -5,5 +5,11 @@ const { program } = require('commander');
 program
 .version('1.0.0')
 .description('Compares two configuration files and shows a difference.')
-.parse(process.argv);
+.arguments('<firstConfig> <secondConfig>')
+.action((firstConfig, secondConfig) => {
+    console.log('do somthing');
+  })
 
+program
+.option('-f, --format [type]', 'output format')
+.parse(process.argv);
