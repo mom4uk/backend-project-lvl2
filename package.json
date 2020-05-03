@@ -2,7 +2,7 @@
   "name": "backend-project-lvl2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "gendiff.js",
   "bin": {
     "backend-project-lvl2": "index.js"
   },
