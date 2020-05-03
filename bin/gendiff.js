@@ -15,8 +15,9 @@ program
   const data2 = fs.readFileSync(sp);
   const parseDataInStr = String.fromCharCode.apply(String, data);
   const parseData2InStr = String.fromCharCode.apply(String, data2);
-  const dataAsObject = JSON.parse(parseDataInStr);
-  const data2AsObject = JSON.parse(parseData2InStr);
+  const dataAsObj = JSON.parse(parseDataInStr)
+  const data2AsObj = JSON.parse(parseData2InStr);
+  console.log(dataAsObj, data2AsObj);
 })
 .option('-f, --format [type]', 'output format')
 .parse(process.argv);
