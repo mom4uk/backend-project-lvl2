@@ -2,7 +2,7 @@
 
 const { program } = require('commander');
 
-const normalizesOutput = (coll) => {
+const normalizesOutputInStr = (coll) => {
 	const iter = (coll, acc) => {
 		const [item] = coll;
 		if (coll.length === 0) {
@@ -24,15 +24,15 @@ const getDiffObj = (firstObj, secondObj) => {
 				result.push(`+ ${sKey}: ${secondObj[sKey]}`);
 				result.push(`- ${key}: ${firstObj[key]}`);
 			}
-			if (!secondObj.hasOwnProperty(key) && !result.includes(`- ${key}: ${firstObj[key]}`)) {
+			if (!Object.prototype.hasOwnProperty.call(secondObj, key) && !result.includes(`- ${key}: ${firstObj[key]}`)) {
 				result.push(`- ${key}: ${firstObj[key]}`);
 			}
-			if (!firstObj.hasOwnProperty(sKey) && !result.includes(`+ ${sKey}: ${secondObj[sKey]}`)) {
+			if (!Object.prototype.hasOwnProperty.call(firstObj, sKey) && !result.includes(`+ ${sKey}: ${secondObj[sKey]}`)) {
 				result.push(`+ ${sKey}: ${secondObj[sKey]}`);
 			}
 		}
 	}
-	return normalizesOutput(result);
+	return normalizesOutputInStr(result);
 };
 
 
