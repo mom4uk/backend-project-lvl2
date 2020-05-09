@@ -8,4 +8,6 @@ globals:
 parserOptions:
   ecmaVersion: 11
   sourceType: module
-rules: {}
+rules: {
+  no-conosle: off
+}
