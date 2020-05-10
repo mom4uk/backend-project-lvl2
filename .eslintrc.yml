@@ -9,5 +9,6 @@ parserOptions:
   ecmaVersion: 11
   sourceType: module
 rules: {
-  no-conosle: off
+  no-conosle: off,
+  no-prototype-builtins: off
 }
