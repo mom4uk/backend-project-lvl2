@@ -18,6 +18,10 @@
   "bugs": {
     "url": "https://github.com/mom4uk/backend-project-lvl2/issues"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
   "homepage": "https://github.com/mom4uk/backend-project-lvl2#readme",
   "dependencies": {
     "commander": "^5.0.0"

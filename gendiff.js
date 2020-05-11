@@ -38,9 +38,9 @@ const getDiffObj = (firstObj, secondObj) => {
 
 const genDiff = (firstPathToFile, secondPathToFile) => {
 	const path = require('path');
+	const fs = require('fs');
 	const fp = path.resolve(firstPathToFile);
 	const sp = path.resolve(secondPathToFile);
-	const fs = require('fs');
   const data = fs.readFileSync(fp);
   const data2 = fs.readFileSync(sp);
   const parseDataInStr = String.fromCharCode.apply(String, data);
@@ -59,3 +59,5 @@ program
 })
 .option('-f, --format [type]', 'output format')
 .parse(process.argv);
+
+export default genDiff;
