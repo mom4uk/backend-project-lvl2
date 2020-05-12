@@ -1,35 +1,37 @@
 {
-  "name": "backend-project-lvl2",
-  "version": "1.0.0",
+  "name": "backend-project-2",
+  "version": "0.0.1",
   "description": "",
   "main": "gendiff.js",
   "bin": {
-    "backend-project-lvl2": "index.js"
+    "backend-project-2": "gendiff.js"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mom4uk/backend-project-lvl2.git"
+    "url": "git+https://github.com/mom4uk/backend-project-2.git"
   },
   "author": "Mikhail Manov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mom4uk/backend-project-lvl2/issues"
+    "url": "https://github.com/mom4uk/backend-project-2/issues"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "transform": {}
-  },
-  "homepage": "https://github.com/mom4uk/backend-project-lvl2#readme",
+  "homepage": "https://github.com/mom4uk/backend-project-2#readme",
   "dependencies": {
+    "@jest/globals": "^26.0.1",
     "commander": "^5.0.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "jest": "^26.0.1"
+    "eslint-plugin-jest": "^23.10.0",
+    "jest": "^26.0.1",
+    "jest-cli": "^26.0.1"
   }
 }
