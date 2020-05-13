@@ -10,7 +10,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "test": "jest"
+    "test": "npx -n --experimental-vm-modules jest"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,11 @@
     "url": "https://github.com/mom4uk/backend-project-2/issues"
   },
   "homepage": "https://github.com/mom4uk/backend-project-2#readme",
+  "type": "module",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
   "dependencies": {
     "@jest/globals": "^26.0.1",
     "commander": "^5.0.0"
