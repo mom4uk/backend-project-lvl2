@@ -2,9 +2,9 @@
   "name": "backend-project-2",
   "version": "0.0.1",
   "description": "",
-  "main": "gendiff.js",
+  "main": "index.js",
   "bin": {
-    "backend-project-2": "gendiff.js"
+    "backend-project-2": "index.js"
   },
   "engines": {
     "node": ">=14"
