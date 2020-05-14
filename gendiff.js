@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const { program } = require('commander');
 
 const normalizesOutputInStr = (coll) => {
 	const iter = (coll, acc) => {
@@ -48,17 +47,7 @@ const genDiff = (firstPathToFile, secondPathToFile) => {
   const parseData2InStr = String.fromCharCode.apply(String, data2);
   const dataAsObj = JSON.parse(parseDataInStr);
   const data2AsObj = JSON.parse(parseData2InStr);
-  console.log(getDiffObj(dataAsObj, data2AsObj));
+	return getDiffObj(dataAsObj, data2AsObj);
 };
-
-program
-.version('1.0.0')
-.description('Compares two configuration files and shows a difference.')
-.arguments('<firstConfig> <secondConfig>')
-.action((firstPathToFile, secondPathToFile) => {
-	genDiff(firstPathToFile, secondPathToFile);
-})
-.option('-f, --format [type]', 'output format')
-.parse(process.argv);
 
 export default genDiff;
