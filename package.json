@@ -1,10 +1,10 @@
 {
-  "name": "backend-project-2",
+  "name": "backend-project-lvl2",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "bin": {
-    "backend-project-2": "index.js"
+    "backend-project-lvl2": "index.js"
   },
   "engines": {
     "node": ">=14"
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mom4uk/backend-project-2.git"
+    "url": "git+https://github.com/mom4uk/backend-project-lvl2.git"
   },
   "author": "Mikhail Manov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mom4uk/backend-project-2/issues"
+    "url": "https://github.com/mom4uk/backend-project-lvl2/issues"
   },
-  "homepage": "https://github.com/mom4uk/backend-project-2#readme",
+  "homepage": "https://github.com/mom4uk/backend-project-lvl2#readme",
   "type": "module",
   "jest": {
     "testEnvironment": "node",
