@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { createRequire } from 'module';
+import path from 'path';
+import fs from 'fs';
 
 const normalizesOutputInStr = (coll) => {
 	const iter = (coll, acc) => {
@@ -36,8 +38,6 @@ const getDiffObj = (firstObj, secondObj) => {
 
 
 const genDiff = (firstPathToFile, secondPathToFile) => {
-	const path = require('path');
-	const fs = require('fs');
 	const fp = path.resolve(firstPathToFile);
 	const sp = path.resolve(secondPathToFile);
   const data = fs.readFileSync(fp);
