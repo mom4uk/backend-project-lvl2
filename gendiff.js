@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { createRequire } from 'module';
 import path from 'path';
 import fs from 'fs';
 
