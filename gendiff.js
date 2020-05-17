@@ -45,7 +45,7 @@ const genDiff = (firstPathToFile, secondPathToFile) => {
   const parseData2InStr = String.fromCharCode.apply(String, data2);
   const dataAsObj = JSON.parse(parseDataInStr);
   const data2AsObj = JSON.parse(parseData2InStr);
-	console.log(getDiffObj(dataAsObj, data2AsObj));
+	return getDiffObj(dataAsObj, data2AsObj);
 };
 
 export default genDiff;
