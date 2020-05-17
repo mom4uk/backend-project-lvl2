@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import genDiff from '/Users/mikhailmanov/Documents/backend-project-2/gendiff.js';
+import genDiff from '/Users/mikhailmanov/Documents/backend-project-lvl2/gendiff.js';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const { program } = require('commander');
