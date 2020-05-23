@@ -4,6 +4,9 @@ install:
 lint:
 	npx eslint .
 
+build: 
+	npm build
+
 test:
 	npm test
 
