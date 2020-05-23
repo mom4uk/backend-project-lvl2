@@ -29,11 +29,9 @@ jobs:
         # The Node.js version to configure
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, build, test
+      - name: npm install, build
         run: |
           make install
-          make build
-          make test
         env:
           CI: true
       - name: Run linter
@@ -47,3 +45,5 @@ jobs:
         with:
           coverageCommand: make test-coverage
           debug: true
+          coverageLocations: |
+            ${{github.workspace}}/coverage/lcov.info:lcov
