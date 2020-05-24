@@ -13,3 +13,4 @@ Utility for finding differences in configuration files.
 ```sh
 $ make test
 ```
+[![asciicast](https://asciinema.org/a/gpDv1UNRp0893JTWwXM9eyagU.svg)](https://asciinema.org/a/gpDv1UNRp0893JTWwXM9eyagU)
