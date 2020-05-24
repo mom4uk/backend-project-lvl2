@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import path from 'path';
 import fs from 'fs';
+import parsStrYamlToObj from './parsers.js';
 
 const normalizesOutputInStr = (coll) => {
   const iter = (items, acc) => {
@@ -16,19 +17,23 @@ const normalizesOutputInStr = (coll) => {
 const getDiffObj = (firstObj, secondObj) => {
   const result = [];
   for (const key in firstObj) {
-    for (const sKey in secondObj) {
-      if (key === sKey && firstObj[key] === secondObj[key]) {
-        result.push(`${key}: ${firstObj[key]}`);
-      }
-      if (key === sKey && firstObj[key] !== secondObj[key]) {
-        result.push(`+ ${sKey}: ${secondObj[sKey]}`);
-        result.push(`- ${key}: ${firstObj[key]}`);
-      }
-      if (!Object.prototype.hasOwnProperty.call(secondObj, key) && !result.includes(`- ${key}: ${firstObj[key]}`)) {
-        result.push(`- ${key}: ${firstObj[key]}`);
-      }
-      if (!Object.prototype.hasOwnProperty.call(firstObj, sKey) && !result.includes(`+ ${sKey}: ${secondObj[sKey]}`)) {
-        result.push(`+ ${sKey}: ${secondObj[sKey]}`);
+    if (Object.prototype.hasOwnProperty.call(firstObj, key)) {
+      for (const sKey in secondObj) {
+        if (Object.prototype.hasOwnProperty.call(secondObj, sKey)) {
+          if (key === sKey && firstObj[key] === secondObj[key]) {
+            result.push(`${key}: ${firstObj[key]}`);
+          }
+          if (key === sKey && firstObj[key] !== secondObj[key]) {
+            result.push(`+ ${sKey}: ${secondObj[sKey]}`);
+            result.push(`- ${key}: ${firstObj[key]}`);
+          }
+          if (!Object.prototype.hasOwnProperty.call(secondObj, key) && !result.includes(`- ${key}: ${firstObj[key]}`)) {
+            result.push(`- ${key}: ${firstObj[key]}`);
+          }
+          if (!Object.prototype.hasOwnProperty.call(firstObj, sKey) && !result.includes(`+ ${sKey}: ${secondObj[sKey]}`)) {
+            result.push(`+ ${sKey}: ${secondObj[sKey]}`);
+          }
+        }
       }
     }
   }
@@ -39,12 +44,15 @@ const getDiffObj = (firstObj, secondObj) => {
 const genDiff = (firstPathToFile, secondPathToFile) => {
   const fp = path.resolve(firstPathToFile);
   const sp = path.resolve(secondPathToFile);
-  const data = fs.readFileSync(fp);
-  const data2 = fs.readFileSync(sp);
-  const parseDataInStr = String.fromCharCode.apply(String, data);
-  const parseData2InStr = String.fromCharCode.apply(String, data2);
-  const dataAsObj = JSON.parse(parseDataInStr);
-  const data2AsObj = JSON.parse(parseData2InStr);
+  const firstDataAsString = fs.readFileSync(fp, 'utf8');
+  const secondDataAsString = fs.readFileSync(sp, 'utf8');
+  if (path.extname(firstPathToFile) === '.yaml' && path.extname(secondPathToFile) === '.yaml') {
+    const dataAsObj = parsStrYamlToObj(firstDataAsString);
+    const data2AsObj = parsStrYamlToObj(secondDataAsString);
+    return getDiffObj(dataAsObj, data2AsObj);
+  }
+  const dataAsObj = JSON.parse(firstDataAsString);
+  const data2AsObj = JSON.parse(secondDataAsString);
   return getDiffObj(dataAsObj, data2AsObj);
 };
 
