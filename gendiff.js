@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import path from 'path';
 import fs from 'fs';
-import parsStrYamlToObj from './parsers.js';
+import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
 const normalizesOutputInStr = (coll) => {
   const iter = (items, acc) => {
@@ -49,6 +49,11 @@ const genDiff = (firstPathToFile, secondPathToFile) => {
   if (path.extname(firstPathToFile) === '.yaml' && path.extname(secondPathToFile) === '.yaml') {
     const dataAsObj = parsStrYamlToObj(firstDataAsString);
     const data2AsObj = parsStrYamlToObj(secondDataAsString);
+    return getDiffObj(dataAsObj, data2AsObj);
+  }
+  if (path.extname(firstPathToFile) === '.ini' && path.extname(secondPathToFile) === '.ini') {
+    const dataAsObj = parsStrIniToObj(firstDataAsString);
+    const data2AsObj = parsStrIniToObj(secondDataAsString);
     return getDiffObj(dataAsObj, data2AsObj);
   }
   const dataAsObj = JSON.parse(firstDataAsString);
