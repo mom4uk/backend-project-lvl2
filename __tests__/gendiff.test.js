@@ -1,18 +1,46 @@
 import { test, expect } from '@jest/globals';
 import genDiff from '../gendiff';
-import * as rightAnswer from '../fixtures/rightAnswer';
+import * as paths from '../fixtures/pathsToTestFiles';
+
+const splitedOutputGendiffForJson = genDiff(paths.dirPath1ForJson, paths.dirPath2ForJson).split('\n');
+const splitedOutputGendiffForYaml = genDiff(paths.dirPath1ForYaml, paths.dirPath2ForYaml).split('\n');
+const splitedOutputGendiffForIni = genDiff(paths.dirPath1ForIni, paths.dirPath2ForIni).split('\n');
 
 test('output gendiff for json format', () => {
-  expect(genDiff(rightAnswer.dirPath1ForJson, rightAnswer.dirPath2ForJson))
-    .toBe(rightAnswer.expected);
+  expect(splitedOutputGendiffForJson).toContain(
+    '{',
+    ' + verbose: true',
+    ' host: hexlet.io',
+    ' + timeout: 20',
+    ' - timeout: 50',
+    ' - proxy: 123.234.53.22',
+    ' - follow: false',
+    '}',
+  );
 });
 
 test('output gendiff for yaml format', () => {
-  expect(genDiff(rightAnswer.dirPath1ForYaml, rightAnswer.dirPath2ForYaml))
-    .toBe(rightAnswer.expected);
+  expect(splitedOutputGendiffForYaml).toContain(
+    '{',
+    ' + verbose: true',
+    ' host: hexlet.io',
+    ' + timeout: 20',
+    ' - timeout: 50',
+    ' - proxy: 123.234.53.22',
+    ' - follow: false',
+    '}',
+  );
 });
 
 test('output gendiff for ini format', () => {
-  expect(genDiff(rightAnswer.dirPath1ForIni, rightAnswer.dirPath2ForIni))
-    .toBe(rightAnswer.expected);
+  expect(splitedOutputGendiffForIni).toContain(
+    '{',
+    ' + verbose: true',
+    ' host: hexlet.io',
+    ' + timeout: 20',
+    ' - timeout: 50',
+    ' - proxy: 123.234.53.22',
+    ' - follow: false',
+    '}',
+  );
 });
