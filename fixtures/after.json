@@ -1,5 +1,10 @@
 {
   "timeout": 20,
   "verbose": true,
-  "host": "hexlet.io"
+  "host": "hexlet.io",
+  "lol": {
+  	"key": {
+  		"a": 1
+  	}
+  }
 }
