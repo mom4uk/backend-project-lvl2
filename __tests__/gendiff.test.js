@@ -15,6 +15,8 @@ test('output gendiff for json format', () => {
     ' - timeout: 50',
     ' - proxy: 123.234.53.22',
     ' - follow: false',
+    ' + lol: {\nkey: { \na: 1\n}',
+    ' - lol: true',
     '}',
   );
 });
@@ -28,6 +30,8 @@ test('output gendiff for yaml format', () => {
     ' - timeout: 50',
     ' - proxy: 123.234.53.22',
     ' - follow: false',
+    ' + lol: {\nkey: { \na: 1\n}',
+    ' - lol: true',
     '}',
   );
 });
@@ -41,6 +45,8 @@ test('output gendiff for ini format', () => {
     ' - timeout: 50',
     ' - proxy: 123.234.53.22',
     ' - follow: false',
+    ' + lol: {\nkey: { \na: 1\n}',
+    ' - lol: true',
     '}',
   );
 });
