@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
-const normalizesOutputInStr = (coll) => {
+const stylish = (coll) => {
   const iter = (items, acc) => {
     const [item] = items;
     if (items.length === 0) {
@@ -36,7 +36,7 @@ const getDiffObj = (firstObj, secondObj) => {
       }
     }
   }
-  return normalizesOutputInStr(result);
+  return stylish(result);
 };
 
 
