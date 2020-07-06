@@ -1,12 +1,15 @@
 import { test, expect } from '@jest/globals';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import genDiff from '../gendiff';
-import * as paths from '../fixtures/pathsToTestFiles';
 
-const splitedOutputGendiffForJson = genDiff(paths.dirPath1ForJson, paths.dirPath2ForJson).split('\n');
-const splitedOutputGendiffForYaml = genDiff(paths.dirPath1ForYaml, paths.dirPath2ForYaml).split('\n');
-const splitedOutputGendiffForIni = genDiff(paths.dirPath1ForIni, paths.dirPath2ForIni).split('\n');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test('output gendiff for json format', () => {
+  const splitedOutputGendiffForJson = genDiff(getFixturePath('/before.json'), getFixturePath('/after.json')).split('\n');
   expect(splitedOutputGendiffForJson).toContain(
     '{',
     ' + verbose: true',
@@ -22,6 +25,7 @@ test('output gendiff for json format', () => {
 });
 
 test('output gendiff for yaml format', () => {
+  const splitedOutputGendiffForYaml = genDiff(getFixturePath('/before.yaml'), getFixturePath('/after.yaml')).split('\n');
   expect(splitedOutputGendiffForYaml).toContain(
     '{',
     ' + verbose: true',
@@ -37,6 +41,7 @@ test('output gendiff for yaml format', () => {
 });
 
 test('output gendiff for ini format', () => {
+  const splitedOutputGendiffForIni = genDiff(getFixturePath('/before.ini'), getFixturePath('/after.ini')).split('\n');
   expect(splitedOutputGendiffForIni).toContain(
     '{',
     ' + verbose: true',
