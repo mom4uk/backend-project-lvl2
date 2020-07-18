@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "backend-project-lvl2": "index.js"
+    "backend-project-lvl2": "gendiff.js"
   },
   "engines": {
     "node": ">=14"
