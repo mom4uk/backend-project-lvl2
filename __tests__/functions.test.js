@@ -8,13 +8,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const expectedLength = 10;
 
 test('output gendiff for json format', () => {
   const collOfFixtureDataJson = getReadedFiles(getFixturePath('/before.json'), getFixturePath('/after.json'));
   const formatFixtureFilesJson = getFilesFormat(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
   const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson).split('\n');
-
   expect(splitedOutputGendiffForJson).toContain(
     '{',
     ' + verbose: true',
@@ -27,6 +27,7 @@ test('output gendiff for json format', () => {
     ' - lol: true',
     '}',
   );
+  expect(splitedOutputGendiffForJson.length).toEqual(expectedLength);
 });
 
 test('output gendiff for yaml format', () => {
@@ -46,6 +47,7 @@ test('output gendiff for yaml format', () => {
     ' - lol: true',
     '}',
   );
+  expect(splitedOutputGendiffForYaml.length).toEqual(expectedLength);
 });
 
 test('output gendiff for ini format', () => {
@@ -65,4 +67,5 @@ test('output gendiff for ini format', () => {
     ' - lol: true',
     '}',
   );
+  expect(splitedOutputGendiffForIni.length).toEqual(expectedLength);
 });
