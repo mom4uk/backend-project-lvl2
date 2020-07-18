@@ -1,7 +1,8 @@
 import { test, expect } from '@jest/globals';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../gendiff';
+import genDiff from '../functions';
+import { getReadedFiles, getFilesFormat } from '../secondary-functions.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -9,7 +10,11 @@ const __dirname = dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test('output gendiff for json format', () => {
-  const splitedOutputGendiffForJson = genDiff(getFixturePath('/before.json'), getFixturePath('/after.json')).split('\n');
+  const collOfFixtureDataJson = getReadedFiles(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const formatFixtureFilesJson = getFilesFormat(getFixturePath('/before.json'), getFixturePath('/after.json'));
+
+  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson).split('\n');
+
   expect(splitedOutputGendiffForJson).toContain(
     '{',
     ' + verbose: true',
@@ -25,7 +30,10 @@ test('output gendiff for json format', () => {
 });
 
 test('output gendiff for yaml format', () => {
-  const splitedOutputGendiffForYaml = genDiff(getFixturePath('/before.yaml'), getFixturePath('/after.yaml')).split('\n');
+  const collOfFixtureDataYaml = getReadedFiles(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const formatFixtureFilesYaml = getFilesFormat(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+
+  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml).split('\n');
   expect(splitedOutputGendiffForYaml).toContain(
     '{',
     ' + verbose: true',
@@ -41,7 +49,10 @@ test('output gendiff for yaml format', () => {
 });
 
 test('output gendiff for ini format', () => {
-  const splitedOutputGendiffForIni = genDiff(getFixturePath('/before.ini'), getFixturePath('/after.ini')).split('\n');
+  const collOfFixtureDataIni = getReadedFiles(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const formatFixtureFilesIni = getFilesFormat(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+
+  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni).split('\n');
   expect(splitedOutputGendiffForIni).toContain(
     '{',
     ' + verbose: true',
