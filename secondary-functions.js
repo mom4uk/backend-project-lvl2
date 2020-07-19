@@ -18,5 +18,10 @@ export const getFilesFormat = (firstPathToFile, secondPathToFile) => {
   if (firstFileFormat === '.ini' && secondFileFormat === '.ini') {
     return 'ini';
   }
-  return 'json';
+  if (firstFileFormat === '.json' && secondFileFormat === '.json') {
+    return 'json';
+  }
+  else {
+    console.log('The program does not support this format');
+  }
 };
