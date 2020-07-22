@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-export const getReadedFiles = (firstPathToFile, secondPathToFile) => {
+export const getFileContent = (firstPathToFile, secondPathToFile) => {
   const firstAbsolutePath = path.resolve(firstPathToFile);
   const secondAbsolutePath = path.resolve(secondPathToFile);
   const firstReadedFile = fs.readFileSync(firstAbsolutePath, 'utf8');
@@ -9,7 +9,7 @@ export const getReadedFiles = (firstPathToFile, secondPathToFile) => {
   return [firstReadedFile, secondReadedFile];
 };
 
-export const getFilesFormat = (firstPathToFile, secondPathToFile) => {
+export const getFileFormat = (firstPathToFile, secondPathToFile) => {
   const firstFileFormat = path.extname(firstPathToFile);
   const secondFileFormat = path.extname(secondPathToFile);
   if (firstFileFormat === '.yaml' && secondFileFormat === '.yaml') {
