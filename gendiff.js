@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { createRequire } from 'module';
 import genDiff from './functions.js';
-import { getFileContent, getFileFormat } from './secondary-functions.js';
+import { getFileContent, getFileFormats } from './secondary-functions.js';
 
 const require = createRequire(import.meta.url);
 const { program } = require('commander');
@@ -12,7 +12,7 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .action((firstPathToFile, secondPathToFile) => {
     const fileContent = getFileContent(firstPathToFile, secondPathToFile);
-    const fileFormats = getFileFormat(firstPathToFile, secondPathToFile);
+    const fileFormats = getFileFormats(firstPathToFile, secondPathToFile);
     console.log(genDiff(fileContent, fileFormats));
   })
   .option('-f, --format [type]', 'output format')

@@ -9,7 +9,7 @@ export const getFileContent = (firstPathToFile, secondPathToFile) => {
   return [firstReadedFile, secondReadedFile];
 };
 
-export const getFileFormat = (firstPathToFile, secondPathToFile) => {
+export const getFileFormats = (firstPathToFile, secondPathToFile) => {
   const firstFileFormat = path.extname(firstPathToFile);
   const secondFileFormat = path.extname(secondPathToFile);
   if (firstFileFormat === '.yaml' && secondFileFormat === '.yaml') {
