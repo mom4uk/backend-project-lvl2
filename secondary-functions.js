@@ -22,7 +22,6 @@ export const getFileFormats = (firstPathToFile, secondPathToFile) => {
     return 'json';
   }
   else {
-    console.log(`The program does not support this formats ${ firstFileFormat, secondFileFormat }
-      or you cannot compare 2 different formats`);
+    console.log(`The program does not support this formats ${ firstFileFormat }, ${ secondFileFormat } or you cannot compare 2 different formats`);
   }
 };

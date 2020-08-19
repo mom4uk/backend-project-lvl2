@@ -7,7 +7,52 @@ import { getFileContent, getFileFormats } from '../secondary-functions.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const rightOutput = '{\n + verbose: true\n host: hexlet.io\n + timeout: 20\n - timeout: 50\n - proxy: 123.234.53.22\n - follow: false\n + lol: {\n    key: {\n      a:1\n    }\n   }\n - lol: true\n}';
+const rightOutput = `{
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: {
+            key: value
+        }
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
+        setting6: {
+            doge: {
+              - wow: too much
+              + wow: so much
+            }
+            key: value
+          + ops: vops
+        }
+    }
+    group1: {
+      - baz: bas
+      + baz: bars
+        foo: bar
+      - nest: {
+            key: value
+        }
+      + nest: str
+    }
+  - group2: {
+        abc: 12345
+        deep: {
+            id: 45
+        }
+    }
+  + group3: {
+        fee: 100500
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+    }
+}`
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test('output gendiff for json format', () => {
