@@ -1,54 +1,11 @@
 import isEqual from 'lodash/isEqual.js';
 import isArray from 'lodash/isarray.js';
+import isObject from 'lodash/isObject.js';
+import includes from 'lodash/includes.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
+const stylish = (obj) => {
 
-const stylish = (coll) => {
-  let result = '';
-  for (const item of coll) {
-    if (item.length === 2) {
-      const [key, value] = item;
-      if (isArray(item) && isArray(value)) {
-        result += `${key}: {\n${stylish(value)}\n  }`;
-      }
-      if (typeof(value) === 'object') {
-        console.log('1');
-      }
-      if (!isArray(value)) {
-        result += `    ${key}: ${value}\n`;
-      }
-    }
-    else if (item.length === 3) {
-      const [sign, key, value] = item;
-      console.log(item)
-      if (isArray(value)) {
-        console.log('sddddddddddd')
-        result += `\n${sign} ${key}: {\n  ${value}}`;
-      }
-      if (typeof(value) === 'object') {
-      }
-      result += `  ${sign} ${key}: ${value}\n`;
-    }
-  }
-  return result;
-};
-
-const isCollHasPair = (coll, pair) => {
-  for (const innerPair of coll) {
-    if (isEqual(innerPair, pair)) {
-      return true;
-    }
-  }
-  return false;
-};
-
-const isCollHasKey = (coll, key) => {
-  for (const row of coll) {
-    if (row.includes(key)) {
-      return true;
-    }
-  }
-  return false;
 };
 
 const isBothValuesObj = (value, value2) => {
@@ -58,39 +15,50 @@ const isBothValuesObj = (value, value2) => {
   return false;
 };
 
-const getDiffObj = (con1, con2) => {
-  const diff = (content1, content2) => {
-  const x = Object.entries(content1);
-  const y = Object.entries(content2);
-  const resultInner = x.reduce((acc, pair1) => {
-    const [key,value] = pair1;
-    for (const [key2, value2] of y) {
-      if (key === key2 && isBothValuesObj(value, value2)) {
-        acc.push([key2, diff(value, value2)]);
-      }
-      const minusPair1 = ['-', key, value];
-      const plusPair2 = ['+', key2, value2];
-      if (key === key2 && value === value2) {
-        acc.push(pair1);
-      }
-      if (key === key2 && value !== value2 && !isBothValuesObj(value, value2)) {
-        acc.push(plusPair2);
-        acc.push(minusPair1);
-      }
-      if (!isCollHasKey(y, key) && !isCollHasPair(acc, minusPair1)) {
-        acc.push(minusPair1);
-      }
-      if (!isCollHasKey(x, key2) && !isCollHasPair(acc, plusPair2)) {
-        acc.push(plusPair2);
+const isIncludes = (coll, obj) => {
+  const { key, value, type } = obj;
+  for (const item of coll) {
+    if (item.key === key && item.value === value && item.type === type) {
+      return true;
+    };
+  }
+  return false;
+};
+
+const getDiffObj = (content1, content2) => {
+  const diff = (firstObj, secondObj) => {
+  const result = [];
+  for (const key in firstObj) {
+    if (Object.prototype.hasOwnProperty.call(firstObj, key)) {
+      for (const sKey in secondObj) {
+        if (Object.prototype.hasOwnProperty.call(secondObj, sKey)) {
+          const removedObj = { key: key, value: firstObj[key], type: 'removed' };
+          const addedObj = { key: sKey, value: secondObj[sKey], type: 'added' };
+          const 
+          if (key === sKey && isBothValuesObj(firstObj[key], secondObj[sKey])) {
+            result.push({ key: key, children: diff(firstObj[key], secondObj[sKey]), type: 'parent'});
+          }
+          if (key === sKey && firstObj[key] === secondObj[sKey]) {
+            result.push({ key: key, value: firstObj[key], type: 'unchanged' });
+          }
+          if (key === sKey && firstObj[key] !== secondObj[sKey] && !isBothValuesObj(firstObj[key], secondObj[sKey])) {
+            result.push({ key: key, oldValue: firstObj[key], newValue: secondObj[sKey], type: 'changed'});
+          }
+          if (!Object.prototype.hasOwnProperty.call(secondObj, key) && !isIncludes(result, removedObj)) {
+            result.push(removedObj);
+          }
+          if (!Object.prototype.hasOwnProperty.call(firstObj, sKey) && !isIncludes(result, addedObj)) {
+            result.push(addedObj);
+          }
+        }
       }
     }
-    return acc;
-  }, []);
-  return resultInner;
-}
-const result = diff(con1, con2);
-  return stylish(result);
-}
+  }
+  return result;
+};
+  return diff(content1, content2);
+};
+
 const genDiff = (collOfReadedFiles, format) => {
   const [data1, data2] = collOfReadedFiles;
   switch (format) {
