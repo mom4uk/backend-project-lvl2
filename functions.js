@@ -4,9 +4,14 @@ import isObject from 'lodash/isObject.js';
 import includes from 'lodash/includes.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
+const valueVerification = (value) => {
+  if (!isObject(value)) {
+    return value;
+  }
+  //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
+}
 const stylish = (coll) => {
   const result = [];
-  let counter = 1;
   for (const item of coll) {
     if (item.type === 'added') {
       result.push(`+ ${item.key}: ${item.value}\n`);
@@ -19,11 +24,10 @@ const stylish = (coll) => {
       result.push(`- ${item.key}: ${item.oldValue}\n`);
     }
     if (item.type === 'unchanged') {
-      result.push(`${item.key}: ${item.value}\n`);
+      result.push(`  ${item.key}: ${item.value}\n`);
     }
     if (item.type === 'parent') {
-      counter += 1;
-      result.push(`${item.key}: {\n${stylish(item.children)}}\n`);
+      result.push(`  ${item.key}: {\n${stylish(item.children)}}\n`);
     }
   }
   return result.join('');
