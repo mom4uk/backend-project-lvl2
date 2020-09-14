@@ -1,30 +1,60 @@
 import isEqual from 'lodash/isEqual.js';
 import isArray from 'lodash/isarray.js';
 import isObject from 'lodash/isObject.js';
-import includes from 'lodash/includes.js';
+import toPairs from 'lodash/toPairs.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
-const valueVerification = (value) => {
-  if (!isObject(value)) {
-    return value;
+// const valueVerification = (val) => {
+//   if (!isObject(val)) {
+//     return val;
+//   }
+//   const x = toPairs(val);
+//   console.log(val, 1)
+//   console.log(x.flatMap(item => {
+//     if (isObject(item)) {
+//       return valueVerification(item)
+//     }
+//     for (const [key, value] of item) {}
+//   }))
+//   for (const [key, value] of toPairs(val)) {
+//     if (isObject(value)) {
+//       return valueVerification(value);
+//     }
+//     return `{\n    ${key}: ${valueVerification(value)}\n  }`;
+//   }
+//   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
+// }
+const valueVerification = (val) => {
+  if (!isObject(val)) {
+    return val;
   }
+  const result = [];
+  for (const prop in val) {
+    if (isObject(val[prop])) {
+      result.push(`\n    ${prop}: ${valueVerification(val[prop])}`)
+    }
+    if (!isObject(val[prop])) {
+      result.push(`  ${prop}: ${val[prop]}`);
+    }
+  }
+  return ['{','\n','  ',result.join(''),'\n','  ','}'].join('');
   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
 }
 const stylish = (coll) => {
   const result = [];
   for (const item of coll) {
     if (item.type === 'added') {
-      result.push(`+ ${item.key}: ${item.value}\n`);
+      result.push(`+ ${item.key}: ${valueVerification(item.value)}\n`);
     }
     if (item.type === 'removed') {
-      result.push(`- ${item.key}: ${item.value}\n`);
+      result.push(`- ${item.key}: ${valueVerification(item.value)}\n`);
     }
     if (item.type === 'changed') {
-      result.push(`+ ${item.key}: ${item.newValue}\n`);
-      result.push(`- ${item.key}: ${item.oldValue}\n`);
+      result.push(`+ ${item.key}: ${valueVerification(item.newValue)}\n`);
+      result.push(`- ${item.key}: ${valueVerification(item.oldValue)}\n`);
     }
     if (item.type === 'unchanged') {
-      result.push(`  ${item.key}: ${item.value}\n`);
+      result.push(`  ${item.key}: ${valueVerification(item.value)}\n`);
     }
     if (item.type === 'parent') {
       result.push(`  ${item.key}: {\n${stylish(item.children)}}\n`);
