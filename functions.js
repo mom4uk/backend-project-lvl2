@@ -1,60 +1,59 @@
 import isEqual from 'lodash/isEqual.js';
-import isArray from 'lodash/isarray.js';
+import isArray from 'lodash/isArray.js';
 import isObject from 'lodash/isObject.js';
 import toPairs from 'lodash/toPairs.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
+const valueVerification = (val, tab) => {
+  if (!isObject(val)) {
+    return val;
+  }
+  const newTab = `${tab}  `;
+  const x = toPairs(val);
+  const newX = x.flatMap(([key, value]) => {
+    if (isObject(value)) {
+      return `${newTab}\n${newTab}${key}: {\n${newTab}${valueVerification(value)}\n${newTab}}`
+    }
+    return `{\n${newTab}${key}:${value}`;
+  });
+  return newX.join('');
+  //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
+}
 // const valueVerification = (val) => {
 //   if (!isObject(val)) {
 //     return val;
 //   }
-//   const x = toPairs(val);
-//   console.log(val, 1)
-//   console.log(x.flatMap(item => {
-//     if (isObject(item)) {
-//       return valueVerification(item)
+//   let tab = '';
+//   const result = [];
+//   for (const prop in val) {
+//     if (isObject(val[prop])) {
+//       result.push(`${tab}${prop}: ${valueVerification(val[prop])}`);
 //     }
-//     for (const [key, value] of item) {}
-//   }))
-//   for (const [key, value] of toPairs(val)) {
-//     if (isObject(value)) {
-//       return valueVerification(value);
+//     if (!isObject(val[prop])) {
+//       tab += '  '
+//       result.push(`${tab}${prop}: ${val[prop]}`);
 //     }
-//     return `{\n    ${key}: ${valueVerification(value)}\n  }`;
 //   }
+//   return ['{','\n',`${tab}`,result.join(''),'\n',`${tab}`,'}'].join('');
 //   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
-// }
-const valueVerification = (val) => {
-  if (!isObject(val)) {
-    return val;
-  }
-  const result = [];
-  for (const prop in val) {
-    if (isObject(val[prop])) {
-      result.push(`\n    ${prop}: ${valueVerification(val[prop])}`)
-    }
-    if (!isObject(val[prop])) {
-      result.push(`  ${prop}: ${val[prop]}`);
-    }
-  }
-  return ['{','\n','  ',result.join(''),'\n','  ','}'].join('');
-  //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
-}
+// };
+
 const stylish = (coll) => {
+  const tab = '  ';
   const result = [];
   for (const item of coll) {
     if (item.type === 'added') {
-      result.push(`+ ${item.key}: ${valueVerification(item.value)}\n`);
+      result.push(`+ ${item.key}: ${valueVerification(item.value, tab)}\n`);
     }
     if (item.type === 'removed') {
-      result.push(`- ${item.key}: ${valueVerification(item.value)}\n`);
+      result.push(`- ${item.key}: ${valueVerification(item.value, tab)}\n`);
     }
     if (item.type === 'changed') {
-      result.push(`+ ${item.key}: ${valueVerification(item.newValue)}\n`);
-      result.push(`- ${item.key}: ${valueVerification(item.oldValue)}\n`);
+      result.push(`+ ${item.key}: ${valueVerification(item.newValue, tab)}\n`);
+      result.push(`- ${item.key}: ${valueVerification(item.oldValue, tab)}\n`);
     }
     if (item.type === 'unchanged') {
-      result.push(`  ${item.key}: ${valueVerification(item.value)}\n`);
+      result.push(`  ${item.key}: ${valueVerification(item.value, tab)}\n`);
     }
     if (item.type === 'parent') {
       result.push(`  ${item.key}: {\n${stylish(item.children)}}\n`);
