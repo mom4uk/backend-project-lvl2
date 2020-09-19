@@ -8,11 +8,12 @@ const valueVerification = (val, tab) => {
   if (!isObject(val)) {
     return val;
   }
+  console.log(`1${tab}1`)
   const newTab = `${tab}  `;
   const x = toPairs(val);
   const newX = x.flatMap(([key, value]) => {
     if (isObject(value)) {
-      return `${newTab}\n${newTab}${key}: {\n${newTab}${valueVerification(value)}\n${newTab}}`
+      return `${newTab}\n${newTab}${key}: {\n${newTab}${valueVerification(value, newTab)}\n${newTab}}`
     }
     return `{\n${newTab}${key}:${value}`;
   });
