@@ -20,25 +20,30 @@ const valueVerification = (val, tab) => {
   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
 };
 
+const formatKey = (key, tab, sign = ' ') => {
+  const newTab = `${tab}  `;
+  return `${newTab}${sign} ${key}`;
+};
+
 const stylish = (coll) => {
   const tab = '';
   const result = [];
   for (const item of coll) {
     if (item.type === 'added') {
-      result.push(`+ ${item.key}: ${valueVerification(item.value, tab)}\n`);
+      result.push(`${formatKey(item.key, tab, '+')}: ${valueVerification(item.value, tab)}\n`);
     }
     if (item.type === 'removed') {
-      result.push(`- ${item.key}: ${valueVerification(item.value, tab)}\n`);
+      result.push(`${formatKey(item.key, tab, '-')}: ${valueVerification(item.value, tab)}\n`);
     }
     if (item.type === 'changed') {
-      result.push(`+ ${item.key}: ${valueVerification(item.newValue, tab)}\n`);
-      result.push(`- ${item.key}: ${valueVerification(item.oldValue, tab)}\n`);
+      result.push(`${formatKey(item.key, tab, '+')}: ${valueVerification(item.newValue, tab)}\n`);
+      result.push(`${formatKey(item.key, tab, '-')}: ${valueVerification(item.oldValue, tab)}\n`);
     }
     if (item.type === 'unchanged') {
-      result.push(`  ${item.key}: ${valueVerification(item.value, tab)}\n`);
+      result.push(`${formatKey(item.key, tab)}: ${valueVerification(item.value, tab)}\n`);
     }
     if (item.type === 'parent') {
-      result.push(`  ${item.key}: {\n${stylish(item.children)}}\n`);
+      result.push(`${formatKey(item.key, tab)}: {\n${stylish(item.children)}}\n`);
     }
   }
   return result.join('');
