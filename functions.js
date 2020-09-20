@@ -8,39 +8,20 @@ const valueVerification = (val, tab) => {
   if (!isObject(val)) {
     return val;
   }
-  console.log(`1${tab}1`)
   const newTab = `${tab}  `;
   const x = toPairs(val);
   const newX = x.flatMap(([key, value]) => {
     if (isObject(value)) {
-      return `${newTab}\n${newTab}${key}: {\n${newTab}${valueVerification(value, newTab)}\n${newTab}}`
+      return `  ${key}: ${valueVerification(value, newTab)}`;
     }
-    return `{\n${newTab}${key}:${value}`;
+    return `  ${key}: ${value}`;
   });
-  return newX.join('');
+  return ['{','\n',`${newTab}`,`${newX.join(`\n${newTab}`)}`,'\n', `${newTab}`, '}'].join('');
   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
-}
-// const valueVerification = (val) => {
-//   if (!isObject(val)) {
-//     return val;
-//   }
-//   let tab = '';
-//   const result = [];
-//   for (const prop in val) {
-//     if (isObject(val[prop])) {
-//       result.push(`${tab}${prop}: ${valueVerification(val[prop])}`);
-//     }
-//     if (!isObject(val[prop])) {
-//       tab += '  '
-//       result.push(`${tab}${prop}: ${val[prop]}`);
-//     }
-//   }
-//   return ['{','\n',`${tab}`,result.join(''),'\n',`${tab}`,'}'].join('');
-//   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
-// };
+};
 
 const stylish = (coll) => {
-  const tab = '  ';
+  const tab = '';
   const result = [];
   for (const item of coll) {
     if (item.type === 'added') {
