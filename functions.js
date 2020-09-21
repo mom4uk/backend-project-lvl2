@@ -12,11 +12,11 @@ const valueVerification = (val, tab) => {
   const x = toPairs(val);
   const newX = x.flatMap(([key, value]) => {
     if (isObject(value)) {
-      return `  ${key}: ${valueVerification(value, newTab)}`;
+      return `${formatKey(key, newTab)}: ${valueVerification(value, newTab)}`;
     }
-    return `  ${key}: ${value}`;
+    return `${formatKey(key, newTab)}: ${value}`;
   });
-  return ['{','\n',`${newTab}`,`${newX.join(`\n${newTab}`)}`,'\n', `${newTab}`, '}'].join('');
+  return ['{','\n',`${newTab}`,`${newX.join(`\n${newTab}`)}`,'\n',`${newTab}` ,`${newTab}`, '}'].join('');
   //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
 };
 
