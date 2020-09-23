@@ -21,32 +21,34 @@ const valueVerification = (val, tab) => {
 };
 
 const formatKey = (key, tab, sign = ' ') => {
-  const newTab = `${tab}  `;
-  return `${newTab}${sign} ${key}`;
+  return `${tab}${sign} ${key}`;
 };
 
 const stylish = (coll) => {
-  const tab = '';
-  const result = [];
-  for (const item of coll) {
-    if (item.type === 'added') {
-      result.push(`${formatKey(item.key, tab, '+')}: ${valueVerification(item.value, tab)}\n`);
-    }
-    if (item.type === 'removed') {
-      result.push(`${formatKey(item.key, tab, '-')}: ${valueVerification(item.value, tab)}\n`);
-    }
-    if (item.type === 'changed') {
-      result.push(`${formatKey(item.key, tab, '+')}: ${valueVerification(item.newValue, tab)}\n`);
-      result.push(`${formatKey(item.key, tab, '-')}: ${valueVerification(item.oldValue, tab)}\n`);
-    }
-    if (item.type === 'unchanged') {
-      result.push(`${formatKey(item.key, tab)}: ${valueVerification(item.value, tab)}\n`);
-    }
-    if (item.type === 'parent') {
-      result.push(`${formatKey(item.key, tab)}: {\n${stylish(item.children)}}\n`);
-    }
-  }
-  return result.join('');
+  const iter = (innerColl) => {
+    const tab = '';
+    const result = [];
+    return innerColl.flatMap((obj) => {
+      const { key, value, oldValue, newValue, type, children } = obj;
+      switch (type) {
+        case 'added':
+          return `${formatKey(key, tab, '+')}: ${valueVerification(value, tab)}\n`;
+        case 'removed':
+          return `${formatKey(key, tab, '-')}: ${valueVerification(value, tab)}\n`;
+        case 'changed':
+          return [`${formatKey(key, tab, '+')}: ${valueVerification(newValue, tab)}\n`,
+          `${formatKey(key, tab, '-')}: ${valueVerification(oldValue, tab)}\n`].join('');
+        case 'unchanged':
+          return `${formatKey(key, tab)}: ${valueVerification(value, tab)}\n`;
+        case 'parent':
+          return `${formatKey(key, tab)}: {\n${iter(children)}}\n`;
+        default:
+          console.log(`wrong type ${type}`);
+        }
+      return result.join('');
+    })
+  };
+  return iter(coll).join('');
 };
 
 // const stylish = (coll) => {
