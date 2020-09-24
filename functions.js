@@ -27,8 +27,7 @@ const formatKey = (key, tab, sign = ' ') => {
 const stylish = (coll) => {
   const iter = (innerColl) => {
     const tab = '';
-    const result = [];
-    return innerColl.flatMap((obj) => {
+    const result = innerColl.flatMap((obj) => {
       const { key, value, oldValue, newValue, type, children } = obj;
       switch (type) {
         case 'added':
@@ -37,7 +36,7 @@ const stylish = (coll) => {
           return `${formatKey(key, tab, '-')}: ${valueVerification(value, tab)}\n`;
         case 'changed':
           return [`${formatKey(key, tab, '+')}: ${valueVerification(newValue, tab)}\n`,
-          `${formatKey(key, tab, '-')}: ${valueVerification(oldValue, tab)}\n`].join('');
+          `${formatKey(key, tab, '-')}: ${valueVerification(oldValue, tab)}\n`];
         case 'unchanged':
           return `${formatKey(key, tab)}: ${valueVerification(value, tab)}\n`;
         case 'parent':
@@ -45,10 +44,10 @@ const stylish = (coll) => {
         default:
           console.log(`wrong type ${type}`);
         }
-      return result.join('');
     })
+    return result.join('');
   };
-  return iter(coll).join('');
+  return iter(coll);
 };
 
 // const stylish = (coll) => {
