@@ -25,29 +25,32 @@ const formatKey = (key, tab, sign = ' ') => {
 };
 
 const stylish = (coll) => {
-  const iter = (innerColl) => {
+  const iter = (innerColl, lvl) => {
+    const newLvl = lvl + 1;
     const tab = '';
+    const twoSpace = '  ';
+    const newTab = twoSpace.repeat(newLvl);
     const result = innerColl.flatMap((obj) => {
       const { key, value, oldValue, newValue, type, children } = obj;
       switch (type) {
         case 'added':
-          return `${formatKey(key, tab, '+')}: ${valueVerification(value, tab)}\n`;
+          return `${formatKey(key, newTab, '+')}: ${valueVerification(value, tab)}\n`;
         case 'removed':
-          return `${formatKey(key, tab, '-')}: ${valueVerification(value, tab)}\n`;
+          return `${formatKey(key, newTab, '-')}: ${valueVerification(value, tab)}\n`;
         case 'changed':
-          return [`${formatKey(key, tab, '+')}: ${valueVerification(newValue, tab)}\n`,
-          `${formatKey(key, tab, '-')}: ${valueVerification(oldValue, tab)}\n`];
+          return [`${formatKey(key, newTab, '+')}: ${valueVerification(newValue, tab)}\n`,
+          `${formatKey(key, newTab, '-')}: ${valueVerification(oldValue, tab)}\n`];
         case 'unchanged':
-          return `${formatKey(key, tab)}: ${valueVerification(value, tab)}\n`;
+          return `${formatKey(key, newTab)}: ${valueVerification(value, tab)}\n`;
         case 'parent':
-          return `${formatKey(key, tab)}: {\n${iter(children)}}\n`;
+          return `${formatKey(key, newTab)}: {\n${iter(children, lvl)}}\n`;
         default:
-          console.log(`wrong type ${type}`);
+          console.log(`Wrong type ${type}`);
         }
     })
     return result.join('');
   };
-  return iter(coll);
+  return iter(coll, 0);
 };
 
 // const stylish = (coll) => {
