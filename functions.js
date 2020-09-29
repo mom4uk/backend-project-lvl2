@@ -8,7 +8,7 @@ const valueVerification = (val, tab) => {
   if (!isObject(val)) {
     return val;
   }
-  const newTab = `${tab}  `;
+  const newTab = `${tab}  `
   const x = toPairs(val);
   const newX = x.flatMap(([key, value]) => {
     if (isObject(value)) {
@@ -16,8 +16,7 @@ const valueVerification = (val, tab) => {
     }
     return `${formatKey(key, newTab)}: ${value}`;
   });
-  return ['{','\n',`${newTab}`,`${newX.join(`\n${newTab}`)}`,'\n',`${newTab}` ,`${newTab}`, '}'].join('');
-  //добавить сюда таб и рекурсивно вызвать эту же функцию. обработать каждое значение в stylish.
+  return ['{','\n',`${newTab}`,`${newX.join(`\n${newTab}`)}`, '\n', '  ',`${newTab}`, '}'].join('');
 };
 
 const formatKey = (key, tab, sign = ' ') => {
@@ -26,24 +25,22 @@ const formatKey = (key, tab, sign = ' ') => {
 
 const stylish = (coll) => {
   const iter = (innerColl, lvl) => {
-    const newLvl = lvl + 1;
-    const tab = '';
     const twoSpace = '  ';
-    const newTab = twoSpace.repeat(newLvl);
+    const newTab = twoSpace.repeat(lvl);
     const result = innerColl.flatMap((obj) => {
       const { key, value, oldValue, newValue, type, children } = obj;
       switch (type) {
         case 'added':
-          return `${formatKey(key, newTab, '+')}: ${valueVerification(value, tab)}\n`;
+          return `${formatKey(key, newTab, '+')}: ${valueVerification(value, newTab)}\n`;
         case 'removed':
-          return `${formatKey(key, newTab, '-')}: ${valueVerification(value, tab)}\n`;
+          return `${formatKey(key, newTab, '-')}: ${valueVerification(value, newTab)}\n`;
         case 'changed':
-          return [`${formatKey(key, newTab, '+')}: ${valueVerification(newValue, tab)}\n`,
-          `${formatKey(key, newTab, '-')}: ${valueVerification(oldValue, tab)}\n`];
+          return [`${formatKey(key, newTab, '+')}: ${valueVerification(newValue, newTab)}\n`,
+          `${formatKey(key, newTab, '-')}: ${valueVerification(oldValue, newTab)}\n`];
         case 'unchanged':
-          return `${formatKey(key, newTab)}: ${valueVerification(value, tab)}\n`;
+          return `${formatKey(key, newTab)}: ${valueVerification(value, newTab)}\n`;
         case 'parent':
-          return `${formatKey(key, newTab)}: {\n${iter(children, lvl)}}\n`;
+          return `${formatKey(key, newTab)}: {\n${iter(children, lvl + 2)}${formatKey('}', newTab)}\n`;
         default:
           console.log(`Wrong type ${type}`);
         }
@@ -53,26 +50,6 @@ const stylish = (coll) => {
   return iter(coll, 0);
 };
 
-// const stylish = (coll) => {
-// return coll.reduce((acc, item) => {
-//   console.log(acc)
-//   switch (item.type) {
-//     case 'unchanged':
-//       acc.push(`${item.key}: ${item.value}`);
-//     case 'added':
-//       acc.push(`+ ${item.key}: ${item.value}`);
-//     case 'removed':
-//       acc.push(`- ${item.key}: ${item.value}`);
-//     case 'changed':
-//       acc.push(`+ ${item.key}: ${item.newValue}`);
-//       acc.push(`- ${item.key}: ${item.oldValue}`);
-//     case 'parent':
-//       acc.push(`${item.key}: ${stylish(item.children)}`);
-//     default: console.log(1);
-//   }
-//   return acc
-//   }, []);
-// };
 const isBothValuesObj = (value, value2) => {
   if (typeof(value) === 'object' && typeof(value2) === 'object') {
     return true;
