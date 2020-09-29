@@ -4,11 +4,17 @@ import isObject from 'lodash/isObject.js';
 import toPairs from 'lodash/toPairs.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
-const valueVerification = (val, tab) => {
+const tab = '  ';
+
+const formatKey = (key, tab, sign = ' ') => {
+  return `${tab}${sign} ${key}`;
+};
+
+const valueVerification = (val, tabulation) => {
   if (!isObject(val)) {
     return val;
   }
-  const newTab = `${tab}  `
+  const newTab = formatKey(tab, tabulation);
   const x = toPairs(val);
   const newX = x.flatMap(([key, value]) => {
     if (isObject(value)) {
@@ -16,17 +22,12 @@ const valueVerification = (val, tab) => {
     }
     return `${formatKey(key, newTab)}: ${value}`;
   });
-  return ['{','\n',`${newTab}`,`${newX.join(`\n${newTab}`)}`, '\n', '  ',`${newTab}`, '}'].join('');
-};
-
-const formatKey = (key, tab, sign = ' ') => {
-  return `${tab}${sign} ${key}`;
+  return ['{','\n',`${newX.join(`\n`)}`, '\n', `${formatKey('}', tabulation)}`].join('');
 };
 
 const stylish = (coll) => {
   const iter = (innerColl, lvl) => {
-    const twoSpace = '  ';
-    const newTab = twoSpace.repeat(lvl);
+    const newTab = tab.repeat(lvl);
     const result = innerColl.flatMap((obj) => {
       const { key, value, oldValue, newValue, type, children } = obj;
       switch (type) {
