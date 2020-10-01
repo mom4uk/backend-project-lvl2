@@ -52,7 +52,7 @@ const rightOutput = `{
             id: 45
         }
     }
-}`
+}`;
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test('output gendiff for json format', () => {

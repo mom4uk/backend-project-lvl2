@@ -21,7 +21,6 @@ export const getFileFormats = (firstPathToFile, secondPathToFile) => {
   if (firstFileFormat === '.json' && secondFileFormat === '.json') {
     return 'json';
   }
-  else {
-    console.log(`The program does not support this formats ${ firstFileFormat }, ${ secondFileFormat } or you cannot compare 2 different formats`);
-  }
+
+  return `The program does not support this formats ${firstFileFormat}, ${secondFileFormat} or you cannot compare 2 different formats`;
 };
