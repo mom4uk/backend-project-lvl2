@@ -48,7 +48,7 @@ const stylish = (coll) => {
     })
     return result.join('');
   };
-  return iter(coll, 0);
+  return ['{', '\n', iter(coll, 1), '}'].join('');
 };
 
 const isBothValuesObj = (value, value2) => {
