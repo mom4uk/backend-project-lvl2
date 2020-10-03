@@ -1,25 +1,8 @@
-import isObject from 'lodash/isObject.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
-import stylish from './formatters/stylish.js';
+import getRightFormatter from './formatters/index.js';
+import { isBothValuesObj, isIncludes } from './utils.js';
 
-const isBothValuesObj = (value, value2) => {
-  if (isObject(value) && isObject(value2)) {
-    return true;
-  }
-  return false;
-};
-
-const isIncludes = (coll, obj) => {
-  const { key, value, type } = obj;
-  for (const item of coll) {
-    if (item.key === key && item.value === value && item.type === type) {
-      return true;
-    }
-  }
-  return false;
-};
-
-const getDiffObj = (content1, content2) => {
+const getDiffObj = (content1, content2, formatter) => {
   const diff = (firstObj, secondObj) => {
     const innerResult = [];
     for (const key in firstObj) {
@@ -58,18 +41,18 @@ const getDiffObj = (content1, content2) => {
     return innerResult;
   };
   const result = diff(content1, content2);
-  return stylish(result);
+  return getRightFormatter(result, formatter);
 };
 
-const genDiff = (collOfReadedFiles, format) => {
+const genDiff = (collOfReadedFiles, format, formatter) => {
   const [data1, data2] = collOfReadedFiles;
   switch (format) {
     case 'yaml':
-      return getDiffObj(parsStrYamlToObj(data1), parsStrYamlToObj(data2));
+      return getDiffObj(parsStrYamlToObj(data1), parsStrYamlToObj(data2), formatter);
     case 'ini':
-      return getDiffObj(parsStrIniToObj(data1), parsStrIniToObj(data2));
+      return getDiffObj(parsStrIniToObj(data1), parsStrIniToObj(data2), formatter);
     default:
-      return getDiffObj(JSON.parse(data1), JSON.parse(data2));
+      return getDiffObj(JSON.parse(data1), JSON.parse(data2), formatter);
   }
 };
 

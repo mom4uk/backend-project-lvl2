@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import isObject from 'lodash/isObject.js';
 
 export const getFileContent = (firstPathToFile, secondPathToFile) => {
   const firstAbsolutePath = path.resolve(firstPathToFile);
@@ -23,4 +24,21 @@ export const getFileFormats = (firstPathToFile, secondPathToFile) => {
   }
 
   return `The program does not support this formats ${firstFileFormat}, ${secondFileFormat} or you cannot compare 2 different formats`;
+};
+
+export const isBothValuesObj = (value, value2) => {
+  if (isObject(value) && isObject(value2)) {
+    return true;
+  }
+  return false;
+};
+
+export const isIncludes = (coll, obj) => {
+  const { key, value, type } = obj;
+  for (const item of coll) {
+    if (item.key === key && item.value === value && item.type === type) {
+      return true;
+    }
+  }
+  return false;
 };
