@@ -17,7 +17,7 @@ const valueVerification = (val, tabulation) => {
     }
     return `${formatKey(key, newTab)}: ${value}`;
   });
-  return ['{', '\n', `${newX.join('\n')}`, '\n', `${formatKey('}', tabulation)}`].join('');
+  return ['{', '\n', `${newX.join('\n')}`, '\n', `${formatKey('}', tabulation)}`].join(''); // добавить в join '\n'?
 };
 
 const stylish = (coll) => {
@@ -43,7 +43,7 @@ const stylish = (coll) => {
           return `Wrong type ${type}`;
       }
     });
-    return result.join('');
+    return result.join(''); // \n ?
   };
   return ['{', '\n', iter(coll, 1), '}'].join('');
 };
