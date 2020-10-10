@@ -1,49 +1,45 @@
 import toPairs from 'lodash/toPairs.js';
 import isObject from 'lodash/isObject.js';
 
-const processedItem = (item, type, nkey) => {
-	const formattedValue = (value) => isObject(value) ? `[complex value]` : value;
-	const newKey = [nkey];
-	const { key, oldValue, newValue, value } = item;
-	const x = newKey.push(key);
+const formattedValue = (value) => {
+	if(isObject(value)){
+		return `[complex value]`;
+	} else if (typeof value === 'string') {
+		return `'${value}'`;
+	}
+	return value;
+};
+
+const formatKey = (coll) => {//need refactoring
+	return coll.join('.');
+};
+
+const processedItem = (obj, acckey) => {
+	const { key, oldValue, newValue, value, type, children } = obj;
+	const newAcc = [acckey.join('.')].filter((item) => item.length !== 0);//need work with that
 	switch (type) {
         case 'added':
-          return `Property '${newKey.join('.')}' was added with value: ${formattedValue(value)}`;
+        	newAcc.push(key);
+          return `Property '${formatKey(newAcc)}' was added with value: ${formattedValue(value)}`;
         case 'removed':
-          return `Property '${newKey.join('.')}' was removed`;
+        	newAcc.push(key);
+          return `Property '${formatKey(newAcc)}' was removed`;
         case 'changed':
-          return `Property '${newKey.join('.')}' was updated. From ${formattedValue(oldValue)} to '${formattedValue(newValue)}'`;
+        	newAcc.push(key);
+          return `Property '${formatKey(newAcc)}' was updated. From ${formattedValue(oldValue)} to ${formattedValue(newValue)}`;
         case 'unchanged': 
-        	return ''
+        	return 'unchanged';
+        case 'parent':
+        	acckey.push(key);
+        	return children.map((x) => processedItem(x, acckey)).filter((item) => item !== 'unchanged').sort().join('\n');
         default:
           return `Wrong type ${type}`;
       }
 };
 
 const plain = (diff) => {
-	const iter = (innerItem, nkey = '') => {
-  const result = innerItem.flatMap((item) => {
-    const {
-      key, type, children,
-    } = item;
-  	switch (type) {
-        case 'added':
-          return processedItem(item, type, nkey);
-        case 'removed':
-          return processedItem(item, type, nkey);
-        case 'changed':
-          return processedItem(item, type, nkey);
-        case 'parent':
-        	return iter(children, key);
-        case 'unchanged': 
-        	return ''
-        default:
-          return `Wrong type ${type}`;
-      }
-  });
-  return result.join('\n');
-}
-return iter(diff);
+	const result = diff.map((item) => processedItem(item, []));
+	return result.sort().join('\n');
 };
 
 export default plain;
