@@ -9,6 +9,7 @@ const __dirname = dirname(__filename);
 
 const formatterStylish = 'stylish';
 const formatterPlain = 'plain';
+const formatterJson = 'json';
 
 const rightOutputStylish = `{
     common: {
@@ -69,6 +70,8 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
 
+const rightOutputJson = `[{"key":"common","children":[{"key":"follow","value":false,"type":"added"},{"key":"setting1","value":"Value 1","type":"unchanged"},{"key":"setting4","value":"blah blah","type":"added"},{"key":"setting5","value":{"key5":"value5"},"type":"added"},{"key":"setting2","value":"200,"type":"removed"},{"key":"setting3","oldValue":true,"newValue":{"key":"value"},"type":"changed"},{"key":"setting6","children":[{"key":"key","value":"value","type":"unchanged"},{"key":"ops","value":"vops","type":"added"},{"key":"doge","children":[{"key":"wow","oldValue":"too much","newValue":"so much","type":"changed"}],"type":"parent"}],"type":"parent"}],"type":"parent"},{"key":"group3","value":{"fee":"100500","deep":{"id":{"number":"45"}}},"type":"added"},{"key":"group1","children":[{"key":"baz","oldValue":"bas","newValue":"bars","type":"changed"},{"key":"foo","value":"bar","type":"unchanged"},{"key":"nest","oldValue":{"key":"value"},"newValue":"str","type":"changed"}],"type":"parent"},{"key":"group2","value":{"abc":"12345","deep":{"id":"45"}},"type":"removed"}]`;
+
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test('output gendiff for stylish formatter', () => {
@@ -109,4 +112,25 @@ test('output gendiff for plain formatter', () => {
 
   const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterPlain);
   expect(splitedOutputGendiffForIni).toEqual(rightOutputPlain);
+});
+
+test('output gendiff for json formatter', () => {
+  const JsoninString = (content) => toString(content);
+  const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
+
+  const collOfFixtureDataYaml = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const formatFixtureFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+
+  const collOfFixtureDataIni = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const formatFixtureFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+
+  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson, formatterJson);
+  expect(splitedOutputGendiffForJson).toEqual(rightOutputJson);
+
+  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterJson);
+  expect(splitedOutputGendiffForYaml).toEqual(rightOutputJson);
+
+  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterJson);
+  expect(splitedOutputGendiffForIni).toEqual(rightOutputJson);
 });
