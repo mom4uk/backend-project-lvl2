@@ -1,8 +1,7 @@
 import { test, expect } from '@jest/globals';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../functions';
-import { getFileContent, getFileFormats } from '../utils.js';
+import { getFileContent, getFileFormats, parseData } from '../utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -74,7 +73,7 @@ const rightOutputJson = `[{"key":"common","children":[{"key":"follow","value":fa
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-test('output gendiff for stylish formatter', () => {
+beforeAll(() => {
   const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
   const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
@@ -83,14 +82,16 @@ test('output gendiff for stylish formatter', () => {
 
   const collOfFixtureDataIni = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
   const formatFixtureFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+});
 
-  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson, formatterStylish);
+test('output gendiff for stylish formatter', () => {
+  const splitedOutputGendiffForJson = parseData(collOfFixtureDataJson, formatFixtureFilesJson, formatterStylish);
   expect(splitedOutputGendiffForJson).toEqual(rightOutputStylish);
 
-  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterStylish);
+  const splitedOutputGendiffForYaml = parseData(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterStylish);
   expect(splitedOutputGendiffForYaml).toEqual(rightOutputStylish);
 
-  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterStylish);
+  const splitedOutputGendiffForIni = parseData(collOfFixtureDataIni, formatFixtureFilesIni, formatterStylish);
   expect(splitedOutputGendiffForIni).toEqual(rightOutputStylish);
 });
 
@@ -115,7 +116,6 @@ test('output gendiff for plain formatter', () => {
 });
 
 test('output gendiff for json formatter', () => {
-  const JsoninString = (content) => toString(content);
   const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
   const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
