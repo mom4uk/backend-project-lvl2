@@ -31,7 +31,7 @@ const processedItem = (obj, acckey) => {
         	return 'unchanged';
         case 'parent':
         	acckey.push(key);
-        	return children.map((x) => processedItem(x, acckey)).filter((item) => item !== 'unchanged').sort().join('\n');
+        	return children.map((x) => processedItem(x, acckey)).filter((item) => item !== 'unchanged').join('\n');
         default:
           return `Wrong type ${type}`;
       }

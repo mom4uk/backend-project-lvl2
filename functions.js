@@ -1,10 +1,11 @@
-import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
-import getRightFormatter from './formatters/index.js';
-import { isBothValuesObj, parseData } from './utils.js';
 import keys from 'lodash/keys.js';
 import uniq from 'lodash/uniq.js';
+import getRightFormatter from './formatters/index.js';
+import { isBothValuesObj, parseData } from './utils.js';
 
-const genDiff = (content1, content2, formatter) => {
+const genDiff = (collOfReadedFiles, format, formatter) => {
+  const parsedData = parseData(collOfReadedFiles, format);
+  const [data1, data2] = parsedData;
   const iter = (con1, con2) => {
   const keysContent1 = keys(con1);
   const keysContent2 = keys(con2);
@@ -29,7 +30,7 @@ const genDiff = (content1, content2, formatter) => {
     return acc;
   }, []);
   }
-  const result = iter(content1, content2);
+  const result = iter(data1, data2);
   return getRightFormatter(result, formatter);
 };
 

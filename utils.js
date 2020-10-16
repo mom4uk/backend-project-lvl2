@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import isObject from 'lodash/isObject.js';
-import genDiff from './functions.js'
+import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
 export const getFileContent = (firstPathToFile, secondPathToFile) => {
   const firstAbsolutePath = path.resolve(firstPathToFile);
@@ -12,7 +12,6 @@ export const getFileContent = (firstPathToFile, secondPathToFile) => {
 };
 
 export const getFileFormats = (firstPathToFile, secondPathToFile) => {
-  console.log(firstPathToFile, secondPathToFile)
   const firstFileFormat = path.extname(firstPathToFile);
   const secondFileFormat = path.extname(secondPathToFile);
   if (firstFileFormat === '.yaml' && secondFileFormat === '.yaml') {
@@ -34,16 +33,16 @@ export const isBothValuesObj = (value, value2) => {
   return false;
 };
 
-export const parseData = (collOfReadedFiles, format, formatter) => {
+export const parseData = (collOfReadedFiles, format) => {
   const [data1, data2] = collOfReadedFiles;
   switch (format) {
     case 'yaml':
-      return genDiff(parsStrYamlToObj(data1), parsStrYamlToObj(data2), formatter);
+      return [parsStrYamlToObj(data1), parsStrYamlToObj(data2)];
     case 'ini':
-      return genDiff(parsStrIniToObj(data1), parsStrIniToObj(data2), formatter);
+      return [parsStrIniToObj(data1), parsStrIniToObj(data2)];
     case 'json':
-      return genDiff(JSON.parse(data1), JSON.parse(data2), formatter);
+      return [JSON.parse(data1), JSON.parse(data2)];
     default:
-      return `Error in parseData arguments: ${collOfReadedFiles}, ${format}, ${formatter}`;
+      return `Error in parseData arguments: ${collOfReadedFiles}, ${format}`;
   }
 };

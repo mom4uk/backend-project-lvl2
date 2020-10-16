@@ -1,7 +1,8 @@
 import { test, expect } from '@jest/globals';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { getFileContent, getFileFormats, parseData } from '../utils.js';
+import genDiff from '../functions.js';
+import { getFileContent, getFileFormats } from '../utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -62,8 +63,8 @@ Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to [complex value]
 Property 'common.setting4' was added with value: 'blah blah'
 Property 'common.setting5' was added with value: [complex value]
-Property 'common.setting6.doge.wow' was updated. From 'too much' to 'so much'
 Property 'common.setting6.ops' was added with value: 'vops'
+Property 'common.setting6.doge.wow' was updated. From 'too much' to 'so much'
 Property 'group1.baz' was updated. From 'bas' to 'bars'
 Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
@@ -73,7 +74,7 @@ const rightOutputJson = `[{"key":"common","children":[{"key":"follow","value":fa
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-beforeAll(() => {
+test('output gendiff for stylish formatter', () => {
   const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
   const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
@@ -82,16 +83,14 @@ beforeAll(() => {
 
   const collOfFixtureDataIni = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
   const formatFixtureFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
-});
 
-test('output gendiff for stylish formatter', () => {
-  const splitedOutputGendiffForJson = parseData(collOfFixtureDataJson, formatFixtureFilesJson, formatterStylish);
+  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson, formatterStylish);
   expect(splitedOutputGendiffForJson).toEqual(rightOutputStylish);
 
-  const splitedOutputGendiffForYaml = parseData(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterStylish);
+  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterStylish);
   expect(splitedOutputGendiffForYaml).toEqual(rightOutputStylish);
 
-  const splitedOutputGendiffForIni = parseData(collOfFixtureDataIni, formatFixtureFilesIni, formatterStylish);
+  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterStylish);
   expect(splitedOutputGendiffForIni).toEqual(rightOutputStylish);
 });
 
