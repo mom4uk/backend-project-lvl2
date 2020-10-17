@@ -17,15 +17,15 @@ const genDiff = (collOfReadedFiles, format, formatter) => {
     if (con2.hasOwnProperty(key) && con1[key] === con2[key]) {
       acc.push({ key, value: con1[key], type: 'unchanged' });
     }
+    if (con1.hasOwnProperty(key) && con2.hasOwnProperty(key) 
+      && con1[key] !== con2[key] && !isBothValuesObj(con1[key], con2[key])) {
+      acc.push({key , oldValue: con1[key], newValue: con2[key], type: 'changed'});
+    }
     if (!con2.hasOwnProperty(key)) {
       acc.push({ key, value: con1[key], type: 'removed'});
     }
     if (!con1.hasOwnProperty(key)) {
       acc.push({ key, value: con2[key], type: 'added'});
-    }
-    if (con1.hasOwnProperty(key) && con2.hasOwnProperty(key) 
-      && con1[key] !== con2[key] && !isBothValuesObj(con1[key], con2[key])) {
-      acc.push({key , oldValue: con1[key], newValue: con2[key], type: 'changed'});
     }
     return acc;
   }, []);

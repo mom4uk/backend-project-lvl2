@@ -15,30 +15,22 @@ const rightOutputStylish = `{
     common: {
       + follow: false
         setting1: Value 1
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
       - setting2: 200
       + setting3: {
             key: value
         }
       - setting3: true
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
         setting6: {
-            key: value
-          + ops: vops
             doge: {
               + wow: so much
               - wow: too much
             }
-        }
-    }
-  + group3: {
-        fee: 100500
-        deep: {
-            id: {
-                number: 45
-            }
+            key: value
+          + ops: vops
         }
     }
     group1: {
@@ -56,6 +48,14 @@ const rightOutputStylish = `{
             id: 45
         }
     }
+  + group3: {
+        fee: 100500
+        deep: {
+            id: {
+                number: 45
+            }
+        }
+    }
 }`;
 
 const rightOutputPlain = `Property 'common.follow' was added with value: false
@@ -63,8 +63,8 @@ Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to [complex value]
 Property 'common.setting4' was added with value: 'blah blah'
 Property 'common.setting5' was added with value: [complex value]
-Property 'common.setting6.ops' was added with value: 'vops'
 Property 'common.setting6.doge.wow' was updated. From 'too much' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
 Property 'group1.baz' was updated. From 'bas' to 'bars'
 Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
