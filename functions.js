@@ -1,37 +1,40 @@
 import keys from 'lodash/keys.js';
 import uniq from 'lodash/uniq.js';
+import has from 'lodash/has.js';
 import getRightFormatter from './formatters/index.js';
 import { isBothValuesObj, parseData } from './utils.js';
 
-const genDiff = (collOfReadedFiles, format, formatter) => {
-  const parsedData = parseData(collOfReadedFiles, format);
+const genDiff = (bothContents, format, formatterName) => {
+  const parsedData = parseData(bothContents, format);
   const [data1, data2] = parsedData;
-  const iter = (con1, con2) => {
-  const keysContent1 = keys(con1);
-  const keysContent2 = keys(con2);
-  const sharedKeys = uniq([...keysContent1, ...keysContent2]).sort();
-  return sharedKeys.reduce((acc, key) => {
-    if (con2.hasOwnProperty(key) && isBothValuesObj(con1[key], con2[key])) {
-      acc.push({ key, children: iter(con1[key], con2[key]), type: 'parent' });
-    }
-    if (con2.hasOwnProperty(key) && con1[key] === con2[key]) {
-      acc.push({ key, value: con1[key], type: 'unchanged' });
-    }
-    if (con1.hasOwnProperty(key) && con2.hasOwnProperty(key) 
-      && con1[key] !== con2[key] && !isBothValuesObj(con1[key], con2[key])) {
-      acc.push({key , oldValue: con1[key], newValue: con2[key], type: 'changed'});
-    }
-    if (!con2.hasOwnProperty(key)) {
-      acc.push({ key, value: con1[key], type: 'removed'});
-    }
-    if (!con1.hasOwnProperty(key)) {
-      acc.push({ key, value: con2[key], type: 'added'});
-    }
-    return acc;
-  }, []);
-  }
+  const iter = (content1, content2) => {
+    const sharedKeys = uniq([...keys(content1), ...keys(content2)]).sort();
+    return sharedKeys.reduce((acc, key) => {
+      const value1 = content1[key];
+      const value2 = content2[key];
+      if (has(content2, key) && isBothValuesObj(value1, value2)) {
+        acc.push({ key, children: iter(value1, value2), type: 'parent' });
+      }
+      if (has(content2, key) && value1 === value2) {
+        acc.push({ key, value: value1, type: 'unchanged' });
+      }
+      if (has(content1, key) && has(content2, key)
+      && value1 !== value2 && !isBothValuesObj(value1, value2)) {
+        acc.push({
+          key, oldValue: value1, newValue: value2, type: 'changed',
+        });
+      }
+      if (!has(content2, key)) {
+        acc.push({ key, value: value1, type: 'removed' });
+      }
+      if (!has(content1, key)) {
+        acc.push({ key, value: value2, type: 'added' });
+      }
+      return acc;
+    }, []);
+  };
   const result = iter(data1, data2);
-  return getRightFormatter(result, formatter);
+  return getRightFormatter(result, formatterName);
 };
 
 export default genDiff;

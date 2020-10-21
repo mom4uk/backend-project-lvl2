@@ -10,7 +10,7 @@ const getRightFormatter = (diff, formatter) => {
       return plain(diff);
     case 'json':
     	return json(diff);
-    default: 
+    default:
     	return `Wrong formatter ${formatter}`;
   }
 };

@@ -3,9 +3,9 @@ import isObject from 'lodash/isObject.js';
 import find from 'lodash/find.js';
 
 const formattedValue = (value) => {
-  if(isObject(value)){
-    return `[complex value]`;
-  } else if (typeof value === 'string') {
+  if (isObject(value)) {
+    return '[complex value]';
+  } if (typeof value === 'string') {
     return `'${value}'`;
   }
   return value;
@@ -19,28 +19,28 @@ const formatKey = (parentKey, key) => {
 };
 
 const processedItem = (obj, startKey = '') => {
-  const { key, oldValue, newValue, value, type, children } = obj;
+  const {
+    key, oldValue, newValue, value, type, children,
+  } = obj;
   const newKey = formatKey(startKey, key);
   switch (type) {
-        case 'added':
-          return `Property '${newKey}' was added with value: ${formattedValue(value)}`;
-        case 'removed':
-          return `Property '${newKey}' was removed`;
-        case 'changed':
-          return `Property '${newKey}' was updated. From ${formattedValue(oldValue)} to ${formattedValue(newValue)}`;
-        case 'unchanged': 
-          return 'unchanged';
-        case 'parent':
-          return children.map((x) => processedItem(x, newKey)).filter((item) => item !== 'unchanged').join('\n');
-        default:
-          return `Wrong type ${type}`;
-      }
+    case 'added':
+      return `Property '${newKey}' was added with value: ${formattedValue(value)}`;
+    case 'removed':
+      return `Property '${newKey}' was removed`;
+    case 'changed':
+      return `Property '${newKey}' was updated. From ${formattedValue(oldValue)} to ${formattedValue(newValue)}`;
+    case 'unchanged':
+      return 'unchanged';
+    case 'parent':
+      return children.map((x) => processedItem(x, newKey)).filter((item) => item !== 'unchanged').join('\n');
+    default:
+      return `Wrong type ${type}`;
+  }
 };
 
 const plain = (diff) => {
-  const result = diff.map((item) => {
-    return processedItem(item);
-  });
+  const result = diff.map((item) => processedItem(item));
   return result.sort().join('\n');
 };
 
