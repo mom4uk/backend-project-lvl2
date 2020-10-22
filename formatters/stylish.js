@@ -2,22 +2,25 @@ import isObject from 'lodash/isObject.js';
 import toPairs from 'lodash/toPairs.js';
 
 const tab = '  ';
+const openingBracket = '{';
+const closingBracket = '}';
+const deepShiftItem = 2;
 
 const formatItem = (key, tabulation, sign = ' ') => `${tabulation}${sign} ${key}`;
 
-const valueVerification = (val, tabulation) => {
-  if (!isObject(val)) {
-    return val;
+const valueVerification = (value, tabulation) => {
+  if (!isObject(value)) {
+    return value;
   }
   const newTab = formatItem(tab, tabulation);
-  const x = toPairs(val);
-  const newX = x.flatMap(([key, value]) => {
-    if (isObject(value)) {
-      return `${formatItem(key, newTab)}: ${valueVerification(value, newTab)}`;
+  const collPairs = toPairs(value);
+  const newX = collPairs.flatMap(([key, innerValue]) => {
+    if (isObject(innerValue)) {
+      return `${formatItem(key, newTab)}: ${valueVerification(innerValue, newTab)}`;
     }
-    return `${formatItem(key, newTab)}: ${value}`;
+    return `${formatItem(key, newTab)}: ${innerValue}`;
   });
-  return ['{', `${newX.join('\n')}`, `${formatItem('}', tabulation)}`].join('\n');
+  return [openingBracket, `${newX.join('\n')}`, `${formatItem(closingBracket, tabulation)}`].join('\n');
 };
 
 const stylish = (coll) => {
@@ -29,23 +32,23 @@ const stylish = (coll) => {
       } = obj;
       switch (type) {
         case 'added':
-          return `${formatItem(key, newTab, '+')}: ${valueVerification(value, newTab)}\n`;
+          return `${formatItem(key, newTab, '+')}: ${valueVerification(value, newTab)}`;
         case 'removed':
-          return `${formatItem(key, newTab, '-')}: ${valueVerification(value, newTab)}\n`;
+          return `${formatItem(key, newTab, '-')}: ${valueVerification(value, newTab)}`;
         case 'changed':
-          return [`${formatItem(key, newTab, '+')}: ${valueVerification(newValue, newTab)}\n`,
-            `${formatItem(key, newTab, '-')}: ${valueVerification(oldValue, newTab)}\n`];
+          return [`${formatItem(key, newTab, '+')}: ${valueVerification(newValue, newTab)}`,
+            `${formatItem(key, newTab, '-')}: ${valueVerification(oldValue, newTab)}`];
         case 'unchanged':
-          return `${formatItem(key, newTab)}: ${valueVerification(value, newTab)}\n`;
+          return `${formatItem(key, newTab)}: ${valueVerification(value, newTab)}`;
         case 'parent':
-          return `${formatItem(key, newTab)}: {\n${iter(children, lvl + 2)}${formatItem('}', newTab)}\n`;
+          return `${formatItem(key, newTab)}: ${openingBracket}\n${iter(children, lvl + deepShiftItem)}\n${formatItem(closingBracket, newTab)}`;
         default:
           return `Wrong type ${type}`;
       }
     });
-    return result.join('');
+    return result.join('\n');
   };
-  return ['{', '\n', iter(coll, 1), '}'].join('');
+  return [openingBracket, iter(coll, 1), closingBracket].join('\n');
 };
 
 
