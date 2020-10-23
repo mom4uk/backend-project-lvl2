@@ -2,9 +2,9 @@
   "name": "backend-project-lvl2",
   "version": "0.0.1",
   "description": "",
-  "main": "gendiff.js",
+  "main": "src/gendiff.js",
   "bin": {
-    "backend-project-lvl2": "gendiff.js"
+    "backend-project-lvl2": "src/gendiff.js"
   },
   "engines": {
     "node": ">=14"
