@@ -18,7 +18,7 @@ const formatKey = (parentKey, key) => {
 
 const plain = (diff) => {
   const result = diff.map((item) => {
-    const iter = (iterItem, startKey = '') => {//iterItem/innerItem/innerValue ????
+    const iter = (iterItem, startKey = '') => { //iterItem/innerItem/innerValue ????
       const {
         key, oldValue, newValue, value, type, children,
       } = iterItem;

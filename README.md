@@ -13,11 +13,11 @@ Utility for finding differences in configuration files.
 ```sh
 $ make test
 ```
-# Stylish
+## Stylish
 [![asciicast](https://asciinema.org/a/qxqdM3okzssyX7M0p7XViM38S.svg)](https://asciinema.org/a/qxqdM3okzssyX7M0p7XViM38S)
 
-# Plain
+## Plain
 [![asciicast](https://asciinema.org/a/kpfKL5sUUwEZzp4VVLb8CyjyC.svg)](https://asciinema.org/a/kpfKL5sUUwEZzp4VVLb8CyjyC)
 
-# Json
+## Json
 [![asciicast](https://asciinema.org/a/WBwETH9zNjpYFl4DNesZrpg0Y.svg)](https://asciinema.org/a/WBwETH9zNjpYFl4DNesZrpg0Y)
