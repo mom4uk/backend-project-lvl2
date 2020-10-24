@@ -35,7 +35,7 @@ const plain = (diff) => {
         case 'parent':
           return children.map((innerItem) => iter(innerItem, newKey)).filter((innerValue) => innerValue !== 'unchanged').join('\n');
         default:
-          return `Wrong type ${type}`;
+          return throw new Error(`Wrong type ${type}`);
       }
     };
     return iter(item);

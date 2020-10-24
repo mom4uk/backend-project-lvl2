@@ -43,7 +43,7 @@ const stylish = (coll) => {
         case 'parent':
           return `${formatItem(key, newTab)}: ${openingBracket}\n${iter(children, lvl + deepShiftItem)}\n${formatItem(closingBracket, newTab)}`;
         default:
-          return `Wrong type ${type}`;
+          return throw new Error (`Wrong type ${type}`);
       }
     });
     return result.join('\n');
