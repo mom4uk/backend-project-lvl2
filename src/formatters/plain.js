@@ -18,7 +18,7 @@ const formatKey = (parentKey, key) => {
 
 const plain = (diff) => {
   const result = diff.map((item) => {
-    const iter = (iterItem, startKey = '') => { //iterItem/innerItem/innerValue ????
+    const iter = (iterItem, startKey = '') => {
       const {
         key, oldValue, newValue, value, type, children,
       } = iterItem;
@@ -35,7 +35,7 @@ const plain = (diff) => {
         case 'parent':
           return children.map((innerItem) => iter(innerItem, newKey)).filter((innerValue) => innerValue !== 'unchanged').join('\n');
         default:
-          return throw new Error(`Wrong type ${type}`);
+          throw new Error(`Wrong type ${type}`);
       }
     };
     return iter(item);

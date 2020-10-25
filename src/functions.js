@@ -2,10 +2,10 @@ import keys from 'lodash/keys.js';
 import uniq from 'lodash/uniq.js';
 import has from 'lodash/has.js';
 import getRightFormatter from './formatters/index.js';
-import { isBothValuesObj, parseData } from './utils.js';
+import { isBothValuesObj, parse } from './utils.js';
 
 const genDiff = (bothContents, format, formatterName) => {
-  const parsedData = parseData(bothContents, format);
+  const parsedData = parse(bothContents, format);
   const [data1, data2] = parsedData;
   const iter = (content1, content2) => {
     const sharedKeys = uniq([...keys(content1), ...keys(content2)]).sort();

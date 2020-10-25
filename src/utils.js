@@ -33,8 +33,8 @@ export const isBothValuesObj = (value, value2) => {
   return false;
 };
 
-export const parseData = (collOfReadedFiles, format) => {
-  const [data1, data2] = collOfReadedFiles;
+export const parse = (contents, format) => {
+  const [data1, data2] = contents;
   switch (format) {
     case 'yaml':
       return [parsStrYamlToObj(data1), parsStrYamlToObj(data2)];
@@ -43,6 +43,6 @@ export const parseData = (collOfReadedFiles, format) => {
     case 'json':
       return [JSON.parse(data1), JSON.parse(data2)];
     default:
-      return `Error in parseData arguments: ${collOfReadedFiles}, ${format}`;
+      throw new Error(`Error in parseData arguments: ${contents}, ${format}`);
   }
 };

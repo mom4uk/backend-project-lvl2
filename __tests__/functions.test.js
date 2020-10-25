@@ -1,8 +1,8 @@
 import { test, expect } from '@jest/globals';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../functions.js';
-import { getFileContent, getFileFormats } from '../utils.js';
+import genDiff from '../src/functions.js';
+import { getFileContent, getFileFormats } from '../src/utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -76,61 +76,61 @@ const rightOutputJsonForIniPars = '[{"key":"common","children":[{"key":"follow",
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test('output gendiff for stylish formatter', () => {
-  const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
-  const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const collJsonData = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const formatFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
-  const collOfFixtureDataYaml = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
-  const formatFixtureFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const collYamlData = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const formatFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
 
-  const collOfFixtureDataIni = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
-  const formatFixtureFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const collIniData = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const formatFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
 
-  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson, formatterStylish);
-  expect(splitedOutputGendiffForJson).toEqual(rightOutputStylish);
+  const outputGendiffForJson = genDiff(collJsonData, formatFilesJson, formatterStylish);
+  expect(outputGendiffForJson).toEqual(rightOutputStylish);
 
-  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterStylish);
-  expect(splitedOutputGendiffForYaml).toEqual(rightOutputStylish);
+  const outputGendiffForYaml = genDiff(collYamlData, formatFilesYaml, formatterStylish);
+  expect(outputGendiffForYaml).toEqual(rightOutputStylish);
 
-  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterStylish);
-  expect(splitedOutputGendiffForIni).toEqual(rightOutputStylish);
+  const outputGendiffForIni = genDiff(collIniData, formatFilesIni, formatterStylish);
+  expect(outputGendiffForIni).toEqual(rightOutputStylish);
 });
 
 test('output gendiff for plain formatter', () => {
-  const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
-  const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const collJsonData = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const formatFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
-  const collOfFixtureDataYaml = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
-  const formatFixtureFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const collYamlData = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const formatFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
 
-  const collOfFixtureDataIni = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
-  const formatFixtureFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const collIniData = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const formatFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
 
-  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson, formatterPlain);
-  expect(splitedOutputGendiffForJson).toEqual(rightOutputPlain);
+  const outputGendiffForJson = genDiff(collJsonData, formatFilesJson, formatterPlain);
+  expect(outputGendiffForJson).toEqual(rightOutputPlain);
 
-  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterPlain);
-  expect(splitedOutputGendiffForYaml).toEqual(rightOutputPlain);
+  const outputGendiffForYaml = genDiff(collYamlData, formatFilesYaml, formatterPlain);
+  expect(outputGendiffForYaml).toEqual(rightOutputPlain);
 
-  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterPlain);
-  expect(splitedOutputGendiffForIni).toEqual(rightOutputPlain);
+  const outputGendiffForIni = genDiff(collIniData, formatFilesIni, formatterPlain);
+  expect(outputGendiffForIni).toEqual(rightOutputPlain);
 });
 
 test('output gendiff for json formatter', () => {
-  const collOfFixtureDataJson = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
-  const formatFixtureFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const collJsonData = getFileContent(getFixturePath('/before.json'), getFixturePath('/after.json'));
+  const formatFilesJson = getFileFormats(getFixturePath('/before.json'), getFixturePath('/after.json'));
 
-  const collOfFixtureDataYaml = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
-  const formatFixtureFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const collYamlData = getFileContent(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
+  const formatFilesYaml = getFileFormats(getFixturePath('/before.yaml'), getFixturePath('/after.yaml'));
 
-  const collOfFixtureDataIni = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
-  const formatFixtureFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const collIniData = getFileContent(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
+  const formatFilesIni = getFileFormats(getFixturePath('/before.ini'), getFixturePath('/after.ini'));
 
-  const splitedOutputGendiffForJson = genDiff(collOfFixtureDataJson, formatFixtureFilesJson, formatterJson);
-  expect(splitedOutputGendiffForJson).toEqual(rightOutputJson);
+  const outputGendiffForJson = genDiff(collJsonData, formatFilesJson, formatterJson);
+  expect(outputGendiffForJson).toEqual(rightOutputJson);
 
-  const splitedOutputGendiffForYaml = genDiff(collOfFixtureDataYaml, formatFixtureFilesYaml, formatterJson);
-  expect(splitedOutputGendiffForYaml).toEqual(rightOutputJson);
+  const outputGendiffForYaml = genDiff(collYamlData, formatFilesYaml, formatterJson);
+  expect(outputGendiffForYaml).toEqual(rightOutputJson);
 
-  const splitedOutputGendiffForIni = genDiff(collOfFixtureDataIni, formatFixtureFilesIni, formatterJson);
-  expect(splitedOutputGendiffForIni).toEqual(rightOutputJsonForIniPars);
+  const outputGendiffForIni = genDiff(collIniData, formatFilesIni, formatterJson);
+  expect(outputGendiffForIni).toEqual(rightOutputJsonForIniPars);
 });

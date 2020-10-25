@@ -24,8 +24,8 @@ const valueVerification = (value, tabulation) => {
 };
 
 const stylish = (coll) => {
-  const iter = (innerColl, lvl) => {
-    const newTab = tab.repeat(lvl);
+  const iter = (innerColl, depth) => {
+    const newTab = tab.repeat(depth);
     const result = innerColl.flatMap((obj) => {
       const {
         key, value, oldValue, newValue, type, children,
@@ -41,9 +41,9 @@ const stylish = (coll) => {
         case 'unchanged':
           return `${formatItem(key, newTab)}: ${valueVerification(value, newTab)}`;
         case 'parent':
-          return `${formatItem(key, newTab)}: ${openingBracket}\n${iter(children, lvl + deepShiftItem)}\n${formatItem(closingBracket, newTab)}`;
+          return `${formatItem(key, newTab)}: ${openingBracket}\n${iter(children, depth + deepShiftItem)}\n${formatItem(closingBracket, newTab)}`;
         default:
-          return throw new Error (`Wrong type ${type}`);
+          throw new Error(`Wrong type ${type}`);
       }
     });
     return result.join('\n');
