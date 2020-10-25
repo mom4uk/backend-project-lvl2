@@ -3,7 +3,7 @@ import fs from 'fs';
 import isObject from 'lodash/isObject.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
-export const getFileContent = (firstPathToFile, secondPathToFile) => {
+export const getFileContents = (firstPathToFile, secondPathToFile) => {
   const firstAbsolutePath = path.resolve(firstPathToFile);
   const secondAbsolutePath = path.resolve(secondPathToFile);
   const firstReadedFile = fs.readFileSync(firstAbsolutePath, 'utf8');
@@ -11,7 +11,7 @@ export const getFileContent = (firstPathToFile, secondPathToFile) => {
   return [firstReadedFile, secondReadedFile];
 };
 
-export const getFileFormats = (firstPathToFile, secondPathToFile) => {
+export const getFileFormat = (firstPathToFile, secondPathToFile) => {
   const firstFileFormat = path.extname(firstPathToFile);
   const secondFileFormat = path.extname(secondPathToFile);
   if (firstFileFormat === '.yaml' && secondFileFormat === '.yaml') {
@@ -26,8 +26,8 @@ export const getFileFormats = (firstPathToFile, secondPathToFile) => {
   return `The program does not support this formats ${firstFileFormat}, ${secondFileFormat} or you cannot compare 2 different formats`;
 };
 
-export const isBothValuesObj = (value, value2) => {
-  if (isObject(value) && isObject(value2)) {
+export const isBothValuesObj = (value1, value2) => {
+  if (isObject(value1) && isObject(value2)) {
     return true;
   }
   return false;

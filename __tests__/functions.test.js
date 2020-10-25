@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/gendiff.js';
-import { getFileContent, getFileFormats } from '../src/utils.js';
+import { getFileContents, getFileFormat } from '../src/utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -76,8 +76,8 @@ const rightOutputJsonForIniParser = '[{"key":"common","children":[{"key":"follow
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 const getContentsAndFormats = (path1, path2) => {
-  const contents = getFileContent(getFixturePath(path1), getFixturePath(path2));
-  const formats = getFileFormats(getFixturePath(path1), getFixturePath(path2));
+  const contents = getFileContents(getFixturePath(path1), getFixturePath(path2));
+  const formats = getFileFormat(getFixturePath(path1), getFixturePath(path2));
   return [contents, formats];
 };
 
