@@ -3,17 +3,17 @@ import fs from 'fs';
 import isObject from 'lodash/isObject.js';
 import { parsStrYamlToObj, parsStrIniToObj } from './parsers.js';
 
-export const getFileContents = (firstPathToFile, secondPathToFile) => {
-  const firstAbsolutePath = path.resolve(firstPathToFile);
-  const secondAbsolutePath = path.resolve(secondPathToFile);
-  const firstReadedFile = fs.readFileSync(firstAbsolutePath, 'utf8');
-  const secondReadedFile = fs.readFileSync(secondAbsolutePath, 'utf8');
-  return [firstReadedFile, secondReadedFile];
+export const getFileContents = (filepath1, filepath2) => {
+  const absolutePath1 = path.resolve(filepath1);
+  const absolutePath2 = path.resolve(filepath2);
+  const readedFile1 = fs.readFileSync(absolutePath1, 'utf8');
+  const readedFile2 = fs.readFileSync(absolutePath2, 'utf8');
+  return [readedFile1, readedFile2];
 };
 
-export const getFileFormat = (firstPathToFile, secondPathToFile) => {
-  const firstFileFormat = path.extname(firstPathToFile);
-  const secondFileFormat = path.extname(secondPathToFile);
+export const getFileFormat = (filepath1, filepath2) => {
+  const firstFileFormat = path.extname(filepath1);
+  const secondFileFormat = path.extname(filepath2);
   if (firstFileFormat === '.yaml' && secondFileFormat === '.yaml') {
     return 'yaml';
   }

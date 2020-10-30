@@ -2,10 +2,14 @@ import keys from 'lodash/keys.js';
 import uniq from 'lodash/uniq.js';
 import has from 'lodash/has.js';
 import getRightFormatter from './formatters/index.js';
-import { isBothValuesObj, parse } from './utils.js';
+import {
+  isBothValuesObj, parse, getFileContents, getFileFormat,
+} from './utils.js';
 
-const genDiff = (bothContents, format, formatterName) => {
-  const parsedData = parse(bothContents, format);
+const genDiff = (filepath1, filepath2, formatName) => {
+  const fileContents = getFileContents(filepath1, filepath2);
+  const filesFormat = getFileFormat(filepath1, filepath2);
+  const parsedData = parse(fileContents, filesFormat);
   const [data1, data2] = parsedData;
   const iter = (content1, content2) => {
     const sharedKeys = uniq([...keys(content1), ...keys(content2)]).sort();
@@ -34,7 +38,7 @@ const genDiff = (bothContents, format, formatterName) => {
     }, []);
   };
   const result = iter(data1, data2);
-  return getRightFormatter(result, formatterName);
+  return getRightFormatter(result, formatName);
 };
 
 export default genDiff;

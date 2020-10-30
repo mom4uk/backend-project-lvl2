@@ -2,9 +2,9 @@
   "name": "backend-project-lvl2",
   "version": "0.0.1",
   "description": "",
-  "main": "src/index.js",
+  "main": "bin/index.js",
   "bin": {
-    "backend-project-lvl2": "src/index.js"
+    "backend-project-lvl2": "bin/index.js"
   },
   "engines": {
     "node": ">=14"
