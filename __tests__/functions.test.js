@@ -2,53 +2,41 @@ import { test, expect } from '@jest/globals';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/gendiff.js';
-import
-{
-  rightOutputStylish,
-  rightOutputJson,
-  rightOutputPlain,
-  rightOutputJsonForIniParser,
-} from '../__fixtures__/rightOutputs.js';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const formatterStylish = 'stylish';
-const formatterPlain = 'plain';
-const formatterJson = 'json';
-
-
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-test('output gendiff for stylish formatter', () => {
-  const outputGendiffForJson = genDiff(getFixturePath('./before.json'), getFixturePath('./after.json'), formatterStylish);
-  expect(outputGendiffForJson).toEqual(rightOutputStylish);
+const rightOutputStylish = fs.readFileSync(getFixturePath('./rightOutputStylish.txt'), 'utf8');
+const rightOutputJson = fs.readFileSync(getFixturePath('./rightOutputJson.txt'), 'utf8');
+const rightOutputPlain = fs.readFileSync(getFixturePath('./rightOutputPlain.txt'), 'utf8');
+const rightOutputJsonForIniParser = fs.readFileSync(getFixturePath('./rightOutputJsonForIniParser.txt'), 'utf8');
 
-  const outputGendiffForYaml = genDiff(getFixturePath('./before.yaml'), getFixturePath('./after.yaml'), formatterStylish);
-  expect(outputGendiffForYaml).toEqual(rightOutputStylish);
-
-  const outputGendiffForIni = genDiff(getFixturePath('./before.ini'), getFixturePath('./after.ini'), formatterStylish);
-  expect(outputGendiffForIni).toEqual(rightOutputStylish);
+test.each([
+  ['./before.json', './after.json', 'stylish'],
+  ['./before.yaml', './after.yaml', 'stylish'],
+  ['./before.ini', './after.ini', 'stylish'],
+  ])('output gendiff for stylish formatter', (path1, path2, formatName) => {
+  expect(genDiff(getFixturePath(path1), getFixturePath(path2), formatName)).toEqual(rightOutputStylish);
 });
 
-test('output gendiff for plain formatter', () => {
-  const outputGendiffForJson = genDiff(getFixturePath('./before.json'), getFixturePath('./after.json'), formatterPlain);
-  expect(outputGendiffForJson).toEqual(rightOutputPlain);
-
-  const outputGendiffForYaml = genDiff(getFixturePath('./before.yaml'), getFixturePath('./after.yaml'), formatterPlain);
-  expect(outputGendiffForYaml).toEqual(rightOutputPlain);
-
-  const outputGendiffForIni = genDiff(getFixturePath('./before.ini'), getFixturePath('./after.ini'), formatterPlain);
-  expect(outputGendiffForIni).toEqual(rightOutputPlain);
+test.each([
+  ['./before.json', './after.json', 'plain'],
+  ['./before.yaml', './after.yaml', 'plain'],
+  ['./before.ini', './after.ini', 'plain'],
+  ])('output gendiff for plain formatter', (path1, path2, formatName) => {
+  expect(genDiff(getFixturePath(path1), getFixturePath(path2), formatName)).toEqual(rightOutputPlain);
 });
 
-test('output gendiff for json formatter', () => {
-  const outputGendiffForJson = genDiff(getFixturePath('./before.json'), getFixturePath('./after.json'), formatterJson);
-  expect(outputGendiffForJson).toEqual(rightOutputJson);
-
-  const outputGendiffForYaml = genDiff(getFixturePath('./before.yaml'), getFixturePath('./after.yaml'), formatterJson);
-  expect(outputGendiffForYaml).toEqual(rightOutputJson);
-
-  const outputGendiffForIni = genDiff(getFixturePath('./before.ini'), getFixturePath('./after.ini'), formatterJson);
-  expect(outputGendiffForIni).toEqual(rightOutputJsonForIniParser);
+test.each([
+  ['./before.json', './after.json', 'json'],
+  ['./before.yaml', './after.yaml', 'json'],
+  ])('output gendiff for json formatter', (path1, path2, formatName) => {
+  expect(genDiff(getFixturePath(path1), getFixturePath(path2), formatName)).toEqual(rightOutputJson);
 });
+
+test('output for ini pareser, json formatter', () => {
+  expect(genDiff(getFixturePath('./before.ini'), getFixturePath('./after.ini'), 'json')).toEqual(rightOutputJsonForIniParser);
+})
