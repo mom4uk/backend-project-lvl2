@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createRequire } from 'module';
-import genDiff from '../src/gendiff.js';
+import genDiff from '../index.js';
 
 const require = createRequire(import.meta.url);
 const { program } = require('commander');

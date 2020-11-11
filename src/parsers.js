@@ -1,20 +1,20 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
+import { normalizeIni } from './utils.js';
 
-const parsStrYamlToObj = (yamlStr) => yaml.safeLoad(yamlStr);
-const parsStrIniToObj = (iniStr) => ini.parse(iniStr);
+const parseYaml = (data) => yaml.safeLoad(data);
+const parseIni = (data) => normalizeIni(ini.parse(data));
 
-const parse = (contents, format) => {
-  const [data1, data2] = contents;
+const parse = (content, format) => {
   switch (format) {
     case 'yaml':
-      return [parsStrYamlToObj(data1), parsStrYamlToObj(data2)];
+      return parseYaml(content);
     case 'ini':
-      return [parsStrIniToObj(data1), parsStrIniToObj(data2)];
+      return parseIni(content);
     case 'json':
-      return [JSON.parse(data1), JSON.parse(data2)];
+      return JSON.parse(content);
     default:
-      throw new Error(`Error in parseData arguments: ${contents}, ${format}`);
+      throw new Error(`Error in parse arguments: ${content}, ${format}`);
   }
 };
 
