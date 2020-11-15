@@ -26,6 +26,6 @@ export const normalizeIni = (data) => _.mapValues(data, (value) => {
   if (_.isObject(value)) {
     return normalizeIni(value);
   }
-  const parsedFloat = parseFloat(value);
-  return _.isNaN(parsedFloat) ? value : parsedFloat;
+  const parsedValue = parseFloat(value);
+  return _.isNaN(parsedValue) ? value : parsedValue;
 });

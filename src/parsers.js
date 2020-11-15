@@ -5,7 +5,7 @@ import { normalizeIni } from './utils.js';
 const parseYaml = (data) => yaml.safeLoad(data);
 const parseIni = (data) => normalizeIni(ini.parse(data));
 
-const parse = (content, format) => {
+export default (content, format) => {
   switch (format) {
     case 'yaml':
       return parseYaml(content);
@@ -17,5 +17,3 @@ const parse = (content, format) => {
       throw new Error(`Error in parse arguments: ${content}, ${format}`);
   }
 };
-
-export default parse;
