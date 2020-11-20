@@ -7,8 +7,8 @@ export default (filepath1, filepath2, formatName) => {
   const data1 = parse(readFile(filepath1), getFileFormat(filepath1));
   const data2 = parse(readFile(filepath2), getFileFormat(filepath2));
   const iter = (content1, content2) => {
-    const unitedKeys = _.uniq([..._.keys(content1), ..._.keys(content2)]).sort();
-    return unitedKeys.map((key) => {
+    const uniqKeys = _.uniq([..._.keys(content1), ..._.keys(content2)]).sort();
+    return uniqKeys.map((key) => {
       const value1 = content1[key];
       const value2 = content2[key];
       if (!_.has(content1, key)) {
