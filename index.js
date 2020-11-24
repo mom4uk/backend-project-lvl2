@@ -1,6 +1,6 @@
-import formattedDiff from './src/formatters/index.js';
-import { readFile, getFileFormat, getTreeDiff } from './src/utils.js';
-import parse from './src/parsers.js';
+import formattedDiff from './src/formatters/index';
+import { readFile, getFileFormat, getTreeDiff } from './src/utils';
+import parse from './src/parsers';
 
 export default (filepath1, filepath2, formatName) => {
   const data1 = parse(readFile(filepath1), getFileFormat(filepath1));

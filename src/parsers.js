@@ -1,6 +1,6 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
-import { normalizeIni } from './utils.js';
+import { normalizeIni } from './utils';
 
 const parseYaml = (data) => yaml.safeLoad(data);
 const parseIni = (data) => normalizeIni(ini.parse(data));

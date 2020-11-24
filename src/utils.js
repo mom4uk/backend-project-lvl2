@@ -18,7 +18,7 @@ export const getFileFormat = (filepath) => {
     case '.json':
       return 'json';
     default:
-      throw Error(`The program does not support this format ${fileFormat}`);
+      throw new Error(`The program does not support this format ${fileFormat}`);
   }
 };
 
@@ -31,8 +31,8 @@ export const normalizeIni = (data) => _.mapValues(data, (value) => {
 });
 
 export const getTreeDiff = (content1, content2) => {
-  const uniqueKeys = _.uniq([..._.keys(content1), ..._.keys(content2)]).sort();
-  return uniqueKeys.map((key) => {
+  const keys = _.union(_.keys(content1), _.keys(content2)).sort();
+  return keys.map((key) => {
     const value1 = content1[key];
     const value2 = content2[key];
     if (!_.has(content1, key)) {

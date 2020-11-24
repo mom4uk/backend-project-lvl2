@@ -1,5 +1,5 @@
-import isObject from 'lodash/isObject.js';
-import toPairs from 'lodash/toPairs.js';
+import isObject from 'lodash/isObject';
+import toPairs from 'lodash/toPairs';
 
 const tab = '  ';
 const openingBracket = '{';
