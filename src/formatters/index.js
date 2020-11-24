@@ -2,7 +2,7 @@ import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
 
-const getRightFormatter = (diff, formatter) => {
+export default (diff, formatter) => {
   switch (formatter) {
     case 'stylish':
       return stylish(diff);
@@ -14,5 +14,3 @@ const getRightFormatter = (diff, formatter) => {
       throw new Error(`Wrong formatter ${formatter}`);
   }
 };
-
-export default getRightFormatter;

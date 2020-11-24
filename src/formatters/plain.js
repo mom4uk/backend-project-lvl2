@@ -31,9 +31,9 @@ const plain = (diff) => {
         case 'changed':
           return `Property '${newKey}' was updated. From ${formattedValue(oldValue)} to ${formattedValue(newValue)}`;
         case 'unchanged':
-          return 'unchanged';
+          return null;
         case 'parent':
-          return children.map((innerItem) => iter(innerItem, newKey)).filter((innerValue) => innerValue !== 'unchanged').join('\n');
+          return children.map((innerItem) => iter(innerItem, newKey)).filter((innerValue) => innerValue !== null).join('\n');
         default:
           throw new Error(`Wrong type ${type}`);
       }
