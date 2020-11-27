@@ -49,7 +49,7 @@ export const getTreeDiff = (content1, content2) => {
         type: 'removed',
       };
     }
-    if (_.has(content2, key) && value1 === value2) {
+    if (value1 === value2) {
       return {
         key,
         value: value1,
